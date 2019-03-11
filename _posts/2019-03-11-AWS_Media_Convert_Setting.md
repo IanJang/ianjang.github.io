@@ -1,6 +1,6 @@
-## AWS Media Convert
+# AWS Media Convert
 
-#### Pricing
+## Pricing
 * 기준:
     - Basic Plan
     - AVC 코덱
@@ -41,8 +41,8 @@
 
 ------
 
-#### Output Groups
-##### Apple HLS Group Setting
+## Output Groups
+### Apple HLS Group Setting
 - Segment
     - Segment control
         - Segmented files: 기본
@@ -58,7 +58,7 @@
     - [RFC4281(default)](https://www.rfc-editor.org/rfc/rfc4281.txt)
     - [RFC6381](https://www.rfc-editor.org/rfc/rfc6281.txt)
 
-###### Output Settings(H.264)
+### Output Settings(H.264)
 - Preset
     - Name modifier 세팅. 생성되는 파일의 post_fix
 - Add I-Frame only manifest
@@ -68,7 +68,7 @@
 - Transfort stream settings
     - ?
 
-##### Encoding Settings
+### Encoding Settings
 - AFD(Active Format Description)
     - [[위키피디아]액티브 포맷 디스크립션](https://ko.wikipedia.org/wiki/%EC%95%A1%ED%8B%B0%EB%B8%8C_%ED%8F%AC%EB%A7%B7_%EB%94%94%EC%8A%A4%ED%81%AC%EB%A6%BD%EC%85%98)
 - SEI(Supplemental Enhancement Information)
@@ -143,7 +143,7 @@
     - 여러 CPU를 동시에 사용할 수 있다.
     - 각 슬라이스 간의 중복되는 부분을 알 수 없음. 인코딩 품질이 떨어질 수 있다
 
-##### Audio encoding settings
+### Audio encoding settings
 - profile
     - HE-AAC: 디지털 오디오에서 쓰이는 손실 데이터 압축 방식
         - LC: 복잡성이 낮고, 스트리밍 오디오와 같은 낮은 비트레이트 애플리케이션에 최적화됨
@@ -158,7 +158,7 @@
 
 ------
 
-## Medea 서비스 제공 Origin
+## Media 서비스 제공 Origin
 - MediaStore
     - 심플하게 라이브 스트리밍 구성할 경우 사용
 - MediaPackage
@@ -196,4 +196,3 @@
 
 ### 문의사항
 1. Apple HLS group settings > Advanced > Codec specification: RFC 4281 vs. RFC 6381
-2.
