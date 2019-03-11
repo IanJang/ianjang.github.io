@@ -29,7 +29,7 @@
     - UHD: 수직해상도가 1080보다 크면서 최대 2160인 출력
         - 4K: 4096x2160 60 fps
 
-- 단비측 비용 계산
+- 비용 계산
     - 720p($0.0212/min) * 23,585 Minutes ≒ $500
     - 23,585 Minutes ≒ 393 Hours
     - 월 393시간 미만의 영상을 인코딩 한다면, On-Demand
@@ -96,6 +96,7 @@
 |240p|352|240|7|350,000|
 
   - References
+
       - [[AWS Document] QVBR 속도 제어 모드 사용](https://docs.aws.amazon.com/ko_kr/mediaconvert/latest/ug/cbr-vbr-qvbr.html)
 
 - HRD Buffer
@@ -112,6 +113,7 @@
     - References
         - [[위키피디아]IPB Frame - Video compression picture types](https://en.wikipedia.org/wiki/Video_compression_picture_types#Bi-directional_predicted_frames.2Fslices_.28B-frames.2Fslices.29)
 - Scene Change Detection
+
     - I프레임을 중간에 삽입해줌
 - Profile
     - BaseLine(CBP/BP)
