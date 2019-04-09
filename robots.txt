@@ -1,0 +1,3 @@
+User-agent: *
+Allow:/
+Sitemap: https://ianjang.github.io/sitemap.xml
