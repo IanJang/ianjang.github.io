@@ -1,0 +1,105 @@
+# Crontab 이용하여 주기적으로 오래된 파일 제거하기
+
+
+## 들어가며
+
+특정 경로에 파일(로그, 이미지등)이 누적해서 쌓인다면, 언젠가는 디스크 용량을 가득 채울 수 있다. 이 경우, 특정기간이 지난 파일을 지워주거나, 압축하여 별도 저장소로 옮긴다거나 하는 과정이 필요하다. 스크립트를 작성하고 crontab에 등록하여 이러한 과정을 자동화 할 수 있다.
+
+---
+
+## Crontab 명령어
+
+```bash
+# crontab 추가 / 수정
+$ crontab -e
+
+# crontab 확인
+$ crontab -l
+
+# crontab 로그 확인
+$ cat /var/log/syslog | grep CRON
+```
+
+---
+
+## Crontab default editor 변경
+
+contab -e 명령 수행시 nano editor로 설정파일이 열려 당황했다.
+이 때 아래와 같이 해결했다.
+
+```bash
+# 기본 에디터를 고르는 명령어 수행
+$ select-editor
+
+# nano로 셋팅된것을, vim으로 변경
+Select an editor.  To change later, run 'select-editor'.
+  1. /bin/ed
+  2. /bin/nano        <---- easiest
+  3. /usr/bin/vim.basic
+  4. /usr/bin/vim.tiny
+
+Choose 1-4 [2]: 3
+```
+
+- Reference
+    - [http://www.42.mach7x.com/2017/02/01/changing-default-editor-for-crontab-from-vi-to-vim/](http://www.42.mach7x.com/2017/02/01/changing-default-editor-for-crontab-from-vi-to-vim/)
+
+---
+
+## sudo command 수행을 crontab에 걸고 싶을 때
+
+root 계정의 crontab을 수정하면 된다.
+참고로 sudo를 빼면 현재 로그인된 계정에 대한 crontab이 수정된다.
+
+```bash
+$ sudo crontab -e
+```
+
+- Reference
+    - [https://askubuntu.com/questions/173924/how-to-run-a-cron-job-using-the-sudo-command](https://askubuntu.com/questions/173924/how-to-run-a-cron-job-using-the-sudo-command)
+
+---
+
+## 오래된 파일 제거 Script
+
+아래 명령어들을 잘 활용하면 된다.
+
+```bash
+# * 수정한지 90일 이상 된 파일과 디렉토리 조회
+$ find . -mtime +90 -ls
+
+# 수정한지 90일 이상된 파일만 조회
+$ find . -mtime +90 -type f -ls
+
+# 수정한지 90일 이상된 파일만 삭제
+# 정기적으로 90일지 지난 파일을 삭제할 때 유용 )
+$ sudo find . -mtime +90 -type f -ls -exec rm -f {} \\;
+```
+
+직접 완성한 스크립트이다. 기간은 days 변수를 두어 수정이 편하게 하였다.
+
+```bash
+# remove_old_files.sh
+path = "/home/ubuntu/work/data/"
+days = 90
+sudo find ${path} -mtime +${days} -type f -ls -exec rm -f {} \\;
+```
+
+- Reference
+    - [https://zetawiki.com/wiki/리눅스_날짜_기준으로_파일_삭제하기](https://zetawiki.com/wiki/%EB%A6%AC%EB%88%85%EC%8A%A4_%EB%82%A0%EC%A7%9C_%EA%B8%B0%EC%A4%80%EC%9C%BC%EB%A1%9C_%ED%8C%8C%EC%9D%BC_%EC%82%AD%EC%A0%9C%ED%95%98%EA%B8%B0)
+    - [https://zetawiki.com/wiki/리눅스_n일전_파일_삭제](https://zetawiki.com/wiki/%EB%A6%AC%EB%88%85%EC%8A%A4_n%EC%9D%BC%EC%A0%84_%ED%8C%8C%EC%9D%BC_%EC%82%AD%EC%A0%9C)
+    - [https://dbrang.tistory.com/867](https://dbrang.tistory.com/867)
+
+---
+
+## 직접 완성한 Crontab 예시
+
+UTC기준 매 15시 1분에 수행되도록 하였고, 수행시 로그를 남기도록 하였다.
+
+```
+1 15 * * * /home/ubuntu/myscripts/remove_old_files.sh >> /home/ubuntu/myscripts/remove_old_files.sh.log 2>&1
+```
+
+- Reference
+	- [https://jdm.kr/blog/2](https://jdm.kr/blog/2)
+

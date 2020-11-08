@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Python BeautifulSoup 이용 크롤링하기 - Ian Jang&#39;s IT Blog</title><meta name="Description" content="Ian Jang&#39;s IT Blog"><meta property="og:title" content="Python BeautifulSoup 이용 크롤링하기" />
+<meta property="og:description" content="BeautifulSoup 설치 Python을 통한 클로링에 대해서 서치해보니, beautifulSoup를 활용한 예제들이 많더라. 우선 설치해보자.
+1  $ pip install beautifulSoup4   크롤링 시작하기 클리앙의 모두의공원 카테고리의 글을 크롤링해보려 한다. 레퍼런스 사이트내용을 참고해서 아래와 같이 진행해 보았다. 우선 해당 페이지의 모든 html text를 긁어와보자
+1 2 3 4 5 6 7 8  import requests from bs4 import BeautifulSoup if __name__ == &#39;__main__&#39;: url = &#34;http://www.clien.net/cs2/bbs/board.php?bo_table=park&#34; source_code = requests.get(url) plain_text = source_code." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/python-beautifulsoup-%EC%9D%B4%EC%9A%A9-%ED%81%AC%EB%A1%A4%EB%A7%81%ED%95%98%EA%B8%B0/" />
+<meta property="og:image" content="http://example.org/logo.png"/>
+<meta property="article:published_time" content="2017-02-04T00:00:00+09:00" />
+<meta property="article:modified_time" content="2017-02-04T00:00:00+09:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://example.org/logo.png"/>
+
+<meta name="twitter:title" content="Python BeautifulSoup 이용 크롤링하기"/>
+<meta name="twitter:description" content="BeautifulSoup 설치 Python을 통한 클로링에 대해서 서치해보니, beautifulSoup를 활용한 예제들이 많더라. 우선 설치해보자.
+1  $ pip install beautifulSoup4   크롤링 시작하기 클리앙의 모두의공원 카테고리의 글을 크롤링해보려 한다. 레퍼런스 사이트내용을 참고해서 아래와 같이 진행해 보았다. 우선 해당 페이지의 모든 html text를 긁어와보자
+1 2 3 4 5 6 7 8  import requests from bs4 import BeautifulSoup if __name__ == &#39;__main__&#39;: url = &#34;http://www.clien.net/cs2/bbs/board.php?bo_table=park&#34; source_code = requests.get(url) plain_text = source_code."/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/python-beautifulsoup-%EC%9D%B4%EC%9A%A9-%ED%81%AC%EB%A1%A4%EB%A7%81%ED%95%98%EA%B8%B0/" /><link rel="prev" href="http://example.org/jekyll3%EB%A1%9C-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0/" /><link rel="next" href="http://example.org/python-flask-with-sqlalchemy/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Python BeautifulSoup 이용 크롤링하기",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/python-beautifulsoup-%EC%9D%B4%EC%9A%A9-%ED%81%AC%EB%A1%A4%EB%A7%81%ED%95%98%EA%B8%B0\/"
+        },"genre": "posts","keywords": "Python, BeautifulSoup, Crawling","wordcount":  309 ,
+        "url": "http:\/\/example.org\/python-beautifulsoup-%EC%9D%B4%EC%9A%A9-%ED%81%AC%EB%A1%A4%EB%A7%81%ED%95%98%EA%B8%B0\/","datePublished": "2017-02-04T00:00:00+09:00","dateModified": "2017-02-04T00:00:00+09:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "IanJang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Ian Jang&#39;s IT Blog">Ian Jang&#39;s IT Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Ian Jang&#39;s IT Blog">Ian Jang&#39;s IT Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Python BeautifulSoup 이용 크롤링하기</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>IanJang</a></span>&nbsp;<span class="post-category">included in <a href="/categories/python/"><i class="far fa-folder fa-fw"></i>Python</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2017-02-04">2017-02-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;309 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#beautifulsoup-설치">BeautifulSoup 설치</a></li>
+    <li><a href="#크롤링-시작하기">크롤링 시작하기</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="beautifulsoup-설치">BeautifulSoup 설치</h2>
+<p>Python을 통한 클로링에 대해서 서치해보니, beautifulSoup를 활용한 예제들이 많더라. 우선 설치해보자.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ pip install beautifulSoup4
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="크롤링-시작하기">크롤링 시작하기</h2>
+<p>클리앙의 모두의공원 카테고리의 글을 크롤링해보려 한다.
+레퍼런스 사이트내용을 참고해서 아래와 같이 진행해 보았다.
+우선 해당 페이지의 모든 html text를 긁어와보자</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;http://www.clien.net/cs2/bbs/board.php?bo_table=park&#34;</span>
+    <span class="n">source_code</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">plain_text</span> <span class="o">=</span> <span class="n">source_code</span><span class="o">.</span><span class="n">text</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">plain_text</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>콘솔창에 엄청나게 길게 출력된 내용을 볼 수 있다. 일단 성공!
+그럼 이어서 특정 태그 내용만 골라내보자.
+예를 들어 게시물의 번호와 제목만 골라보자</p>
+<p>(내용추가 예정)</p>
+<p>먼저 BeautifulSoup 라이브러리를 이용하여 html 문서를 파싱한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python">
+<span class="o">...</span><span class="err">생략</span><span class="o">...</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;http://www.clien.net/cs2/bbs/board.php?bo_table=park&#34;</span>
+    <span class="n">source_code</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">plain_text</span> <span class="o">=</span> <span class="n">source_code</span><span class="o">.</span><span class="n">text</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">plain_text</span><span class="p">)</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">plain_text</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>혹시 아래와 같은 에러를 만난다면</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">bs4.FeatureNotFound: Couldn<span class="err">&#39;</span>t find a tree builder with the features you requested: lxml. Do you need to install a parser library?
+</code></pre></td></tr></table>
+</div>
+</div><p>lxml 라이브러리가 없어 발생한 문제다. 설치하자.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ pip install lxml
+</code></pre></td></tr></table>
+</div>
+</div><p>계속 진행해보자.
+크롬 인스펙터를 이용해서 구조를 파악하고..
+아래와같이 우선 게시물번호와 제목을 가져오기러 했다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python">
+<span class="o">...</span><span class="err">생략</span><span class="o">...</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;http://www.clien.net/cs2/bbs/board.php?bo_table=park&#34;</span>
+    <span class="n">source_code</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">plain_text</span> <span class="o">=</span> <span class="n">source_code</span><span class="o">.</span><span class="n">text</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">plain_text</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;tr.mytr&#39;</span><span class="p">):</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">td</span> <span class="ow">in</span> <span class="n">tr</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">idx</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&#34;NUM : &#34;</span><span class="o">+</span> <span class="n">td</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">idx</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&#34;SUBJECT : &#34;</span><span class="o">+</span> <span class="n">td</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+            <span class="n">idx</span><span class="o">+=</span><span class="mi">1</span>
+    
+
+</code></pre></td></tr></table>
+</div>
+</div><p>그 결과물은.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">NUM : 52750721
+SUBJECT : êµ°ë ìë¹µ.. êµ¬ìë¨¹ì ë§ë¬ì£ 
+</code></pre></td></tr></table>
+</div>
+</div><p>한글이 깨져나온다.
+오랜시간의 사투 결과&hellip; 해결책을 찾은것은 <code>plain_text = source_code.text</code> 를
+<code>plain_text = source_code.content</code> 로 변경하는 것이었다.
+그 결과..</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">NUM : 52750735
+SUBJECT : 미드 에이젼트 오브 쉴드...
+</code></pre></td></tr></table>
+</div>
+</div><p>완료!</p>
+<hr>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="http://hurderella.tistory.com/96" target="_blank" rel="noopener noreffer">파이썬(Python)-취미 프로그래밍, 취미 프로젝트의 시작.</a></li>
+<li><a href="http://hurderella.tistory.com/113" target="_blank" rel="noopener noreffer">파이썬(Python) - beautifulSoup 으로 html 파싱</a></li>
+<li><a href="http://creativeworks.tistory.com/entry/PYTHON-3-Tutorials-25-%EC%9B%B9-%ED%81%AC%EB%A1%A4%EB%9F%AClike-Google-%EB%A7%8C%EB%93%A4%EA%B8%B0-2-How-to-build-a-web-crawler" target="_blank" rel="noopener noreffer">[PYTHON 3] Tutorials 25. 웹 크롤러(like Google) 만들기 2 - How to build a web crawler</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2017-02-04</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/python-beautifulsoup-%EC%9D%B4%EC%9A%A9-%ED%81%AC%EB%A1%A4%EB%A7%81%ED%95%98%EA%B8%B0/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/python-beautifulsoup-%EC%9D%B4%EC%9A%A9-%ED%81%AC%EB%A1%A4%EB%A7%81%ED%95%98%EA%B8%B0/" data-title="Python BeautifulSoup 이용 크롤링하기" data-hashtags="Python,BeautifulSoup,Crawling"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/python-beautifulsoup-%EC%9D%B4%EC%9A%A9-%ED%81%AC%EB%A1%A4%EB%A7%81%ED%95%98%EA%B8%B0/" data-hashtag="Python"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/python-beautifulsoup-%EC%9D%B4%EC%9A%A9-%ED%81%AC%EB%A1%A4%EB%A7%81%ED%95%98%EA%B8%B0/" data-title="Python BeautifulSoup 이용 크롤링하기" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/python-beautifulsoup-%EC%9D%B4%EC%9A%A9-%ED%81%AC%EB%A1%A4%EB%A7%81%ED%95%98%EA%B8%B0/" data-title="Python BeautifulSoup 이용 크롤링하기"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://example.org/python-beautifulsoup-%EC%9D%B4%EC%9A%A9-%ED%81%AC%EB%A1%A4%EB%A7%81%ED%95%98%EA%B8%B0/" data-title="Python BeautifulSoup 이용 크롤링하기"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="Share on Myspace" data-sharer="myspace" data-url="http://example.org/python-beautifulsoup-%EC%9D%B4%EC%9A%A9-%ED%81%AC%EB%A1%A4%EB%A7%81%ED%95%98%EA%B8%B0/" data-title="Python BeautifulSoup 이용 크롤링하기" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="Share on Blogger" data-sharer="blogger" data-url="http://example.org/python-beautifulsoup-%EC%9D%B4%EC%9A%A9-%ED%81%AC%EB%A1%A4%EB%A7%81%ED%95%98%EA%B8%B0/" data-title="Python BeautifulSoup 이용 크롤링하기" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/python-beautifulsoup-%EC%9D%B4%EC%9A%A9-%ED%81%AC%EB%A1%A4%EB%A7%81%ED%95%98%EA%B8%B0/" data-title="Python BeautifulSoup 이용 크롤링하기"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/python/">Python</a>,&nbsp;<a href="/tags/beautifulsoup/">BeautifulSoup</a>,&nbsp;<a href="/tags/crawling/">Crawling</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/jekyll3%EB%A1%9C-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0/" class="prev" rel="prev" title="Jekyll3로 블로그 만들기"><i class="fas fa-angle-left fa-fw"></i>Jekyll3로 블로그 만들기</a>
+            <a href="/python-flask-with-sqlalchemy/" class="next" rel="next" title="Python Flask with SQLAlchemy">Python Flask with SQLAlchemy<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.68.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2017 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">IanJang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":20},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

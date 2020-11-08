@@ -1,0 +1,17 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>S3 - Tag - Ian Jang&#39;s IT Blog</title>
+        <link>http://example.org/tags/s3/</link>
+        <description>S3 - Tag - Ian Jang&#39;s IT Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ianjang0718@gmail.com (IanJang)</managingEditor>
+            <webMaster>ianjang0718@gmail.com (IanJang)</webMaster><lastBuildDate>Fri, 05 Apr 2019 00:00:00 &#43;0900</lastBuildDate><atom:link href="http://example.org/tags/s3/" rel="self" type="application/rss+xml" /><item>
+    <title>AWS Lambda, S3를 이용한 이미지 변환 자동화(feat. ImageMagick)</title>
+    <link>http://example.org/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94/</link>
+    <pubDate>Fri, 05 Apr 2019 00:00:00 &#43;0900</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94/</guid>
+    <description><![CDATA[들어가며 이미지 리소스의 품질은 최대한 유지한 체로, 용량을 줄이기 위한 방법으로 ImageMagick을 사용하고 있었다. 그러던 중 AWS Lambda, s3를 이용하여 자동화 하면 좋겠다는 생각이 들었고, 실제로 이와같이 적용한 케이스가 많음을 확인하고 바로 작업을 진행해보았다. 아래는 작업을 진행하면서 ImageMagick 부터 Lambda 까지 필요한 내용들을 정리해 보았다.
+ ImageMagick? 이미지 변환용으로 널리 쓰이는 라이브러리이다.
+ImageMagick Option 정말 다양한 옵션값이 있다. 간단하게는 Quality 옵션만으로 이미지 압축이 가능하지만, 압축이 어려운 이미지일 경우 원본보다 용량이 커지는 경우도 있더라.]]></description>
+</item></channel>
+</rss>

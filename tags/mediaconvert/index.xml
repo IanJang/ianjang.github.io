@@ -1,0 +1,16 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>MediaConvert - Tag - Ian Jang&#39;s IT Blog</title>
+        <link>http://example.org/tags/mediaconvert/</link>
+        <description>MediaConvert - Tag - Ian Jang&#39;s IT Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ianjang0718@gmail.com (IanJang)</managingEditor>
+            <webMaster>ianjang0718@gmail.com (IanJang)</webMaster><lastBuildDate>Mon, 11 Mar 2019 00:00:00 &#43;0900</lastBuildDate><atom:link href="http://example.org/tags/mediaconvert/" rel="self" type="application/rss+xml" /><item>
+    <title>AWS Media Convert 내용 정리</title>
+    <link>http://example.org/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/</link>
+    <pubDate>Mon, 11 Mar 2019 00:00:00 &#43;0900</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/</guid>
+    <description><![CDATA[들어가며 AWS Media Convert를 사용해 보면서 내용을 정리해 보았다.
+Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Demand 요금      fps&lt;=30 30&lt;fps&lt;=60 60&lt;fps&lt;=120     SD 0.0085 USD 0.0106 USD 0.0127 USD   HD 0.0170 USD 0.0212 USD 0.0255 USD   UHD 0.0340 USD 0.0425 USD 0.0510 USD      RTS(ReservedTranscodeSlots) 요금 12개월 약정: 500 USD]]></description>
+</item></channel>
+</rss>

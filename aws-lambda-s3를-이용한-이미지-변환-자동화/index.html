@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>AWS Lambda, S3를 이용한 이미지 변환 자동화(feat. ImageMagick) - Ian Jang&#39;s IT Blog</title><meta name="Description" content="Ian Jang&#39;s IT Blog"><meta property="og:title" content="AWS Lambda, S3를 이용한 이미지 변환 자동화(feat. ImageMagick)" />
+<meta property="og:description" content="들어가며 이미지 리소스의 품질은 최대한 유지한 체로, 용량을 줄이기 위한 방법으로 ImageMagick을 사용하고 있었다. 그러던 중 AWS Lambda, s3를 이용하여 자동화 하면 좋겠다는 생각이 들었고, 실제로 이와같이 적용한 케이스가 많음을 확인하고 바로 작업을 진행해보았다. 아래는 작업을 진행하면서 ImageMagick 부터 Lambda 까지 필요한 내용들을 정리해 보았다.
+ ImageMagick? 이미지 변환용으로 널리 쓰이는 라이브러리이다.
+ImageMagick Option 정말 다양한 옵션값이 있다. 간단하게는 Quality 옵션만으로 이미지 압축이 가능하지만, 압축이 어려운 이미지일 경우 원본보다 용량이 커지는 경우도 있더라." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94/" />
+<meta property="og:image" content="http://example.org/logo.png"/>
+<meta property="article:published_time" content="2019-04-05T00:00:00+09:00" />
+<meta property="article:modified_time" content="2019-04-05T00:00:00+09:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://example.org/logo.png"/>
+
+<meta name="twitter:title" content="AWS Lambda, S3를 이용한 이미지 변환 자동화(feat. ImageMagick)"/>
+<meta name="twitter:description" content="들어가며 이미지 리소스의 품질은 최대한 유지한 체로, 용량을 줄이기 위한 방법으로 ImageMagick을 사용하고 있었다. 그러던 중 AWS Lambda, s3를 이용하여 자동화 하면 좋겠다는 생각이 들었고, 실제로 이와같이 적용한 케이스가 많음을 확인하고 바로 작업을 진행해보았다. 아래는 작업을 진행하면서 ImageMagick 부터 Lambda 까지 필요한 내용들을 정리해 보았다.
+ ImageMagick? 이미지 변환용으로 널리 쓰이는 라이브러리이다.
+ImageMagick Option 정말 다양한 옵션값이 있다. 간단하게는 Quality 옵션만으로 이미지 압축이 가능하지만, 압축이 어려운 이미지일 경우 원본보다 용량이 커지는 경우도 있더라."/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94/" /><link rel="prev" href="http://example.org/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0/" /><link rel="next" href="http://example.org/aws-ec2-volume-size-%EB%8A%98%EC%9D%B4%EA%B8%B0/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "AWS Lambda, S3를 이용한 이미지 변환 자동화(feat. ImageMagick)",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94\/"
+        },"genre": "posts","keywords": "AWS, S3, Lambda","wordcount":  940 ,
+        "url": "http:\/\/example.org\/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94\/","datePublished": "2019-04-05T00:00:00+09:00","dateModified": "2019-04-05T00:00:00+09:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "IanJang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Ian Jang&#39;s IT Blog">Ian Jang&#39;s IT Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Ian Jang&#39;s IT Blog">Ian Jang&#39;s IT Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">AWS Lambda, S3를 이용한 이미지 변환 자동화(feat. ImageMagick)</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>IanJang</a></span>&nbsp;<span class="post-category">included in <a href="/categories/aws/"><i class="far fa-folder fa-fw"></i>AWS</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-04-05">2019-04-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;940 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#들어가며">들어가며</a></li>
+    <li><a href="#imagemagick">ImageMagick?</a>
+      <ul>
+        <li><a href="#imagemagick-option">ImageMagick Option</a></li>
+      </ul>
+    </li>
+    <li><a href="#how-to-install-imagemagick-on-ubuntu">How to install ImageMagick on Ubuntu</a>
+      <ul>
+        <li><a href="#png-library-설치">PNG library 설치</a></li>
+        <li><a href="#우분투에-imagemagick-설치">우분투에 ImageMagick 설치</a></li>
+        <li><a href="#imagemagick-명령어">ImageMagick 명령어</a></li>
+      </ul>
+    </li>
+    <li><a href="#wandimagemagick-for-python">Wand(ImageMagick for python)</a></li>
+    <li><a href="#lambda-함수-작성-tip">Lambda 함수 작성 Tip</a>
+      <ul>
+        <li><a href="#환경변수-사용">환경변수 사용</a></li>
+        <li><a href="#external-library를-포함하여-함수-생성하는-방법">External Library를 포함하여 함수 생성하는 방법</a></li>
+        <li><a href="#lambda-함수-s3-event-trigger-테스트-방법">Lambda 함수 s3 event trigger 테스트 방법</a></li>
+        <li><a href="#완성된-코드">완성된 코드</a></li>
+      </ul>
+    </li>
+    <li><a href="#issue--solution">Issue &amp; Solution</a>
+      <ul>
+        <li><a href="#magick-no-decode-delegate-for-this-image-format-png">magick: no decode delegate for this image format `PNG&rsquo;</a></li>
+        <li><a href="#event가-무한히-trigger-되는-문제">Event가 무한히 Trigger 되는 문제</a></li>
+        <li><a href="#error-clienterror-an-error-occurred-404-when-calling-the-headobject-operation-not-found-traceback-most-recent-call-last">[ERROR] ClientError: An error occurred (404) when calling the HeadObject operation: Not Found Traceback (most recent call last)</a></li>
+        <li><a href="#task-timed-out-after-300-seconds">Task timed out after 3.00 seconds</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="들어가며">들어가며</h2>
+<p>이미지 리소스의 품질은 최대한 유지한 체로, 용량을 줄이기 위한 방법으로 ImageMagick을 사용하고 있었다. 그러던 중 AWS Lambda, s3를 이용하여 자동화 하면 좋겠다는 생각이 들었고, 실제로 이와같이 적용한 케이스가 많음을 확인하고 바로 작업을 진행해보았다. 아래는 작업을 진행하면서 ImageMagick 부터 Lambda 까지 필요한 내용들을 정리해 보았다.</p>
+<hr>
+<h2 id="imagemagick">ImageMagick?</h2>
+<p>이미지 변환용으로 널리 쓰이는 라이브러리이다.</p>
+<h3 id="imagemagick-option">ImageMagick Option</h3>
+<p>정말 다양한 옵션값이 있다. 간단하게는 Quality 옵션만으로 이미지 압축이 가능하지만, 압축이 어려운 이미지일 경우 원본보다 용량이 커지는 경우도 있더라.</p>
+<ul>
+<li>Quality
+이미지 포멧에 따라 quality가 의미하는 바가 다르다는 점에 유의해야한다. 특히 PNG의 경우 그 의미가 확연히 다르므로 반드시 확인하고 넘어가자.
+<ul>
+<li>JPEG / MPEG: 1(압축률최대) ~ 100(압축률최저)</li>
+<li>MNG / PNG:
+<ul>
+<li>zlib compression level: (quality / 10)</li>
+<li>filter type: (quality % 10)</li>
+<li>즉, 80이라면, zlib_compression_level=8, filter_type=0으로 셋팅한것</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>References
+<ul>
+<li><a href="https://www.imagemagick.org/script/command-line-options.php#quality" target="_blank" rel="noopener noreffer">https://www.imagemagick.org/script/command-line-options.php#quality</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="how-to-install-imagemagick-on-ubuntu">How to install ImageMagick on Ubuntu</h2>
+<p>우분투에 ImageMagick을 설치하려면, 아래와 같이 진행하면 된다</p>
+<h3 id="png-library-설치">PNG library 설치</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo apt-get install libpng-dev
+
+</code></pre></td></tr></table>
+</div>
+</div><hr>
+<h3 id="우분투에-imagemagick-설치">우분투에 ImageMagick 설치</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">$ git clone &lt;https://github.com/ImageMagick/ImageMagick.git&gt;
+$ cd ImageMagick
+$ ./configure
+$ make
+$ sudo make install
+$ sudo ldconfig /usr/local/lib
+$ /usr/local/bin/convert logo: logo.gif
+$ make check
+
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Reference
+<ul>
+<li><a href="https://imagemagick.org/script/install-source.php" target="_blank" rel="noopener noreffer">https://imagemagick.org/script/install-source.php</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="imagemagick-명령어">ImageMagick 명령어</h3>
+<p>아래는 image.png를 quality 80 옵션으로 변환한 image_compressed.png를 생성하는 명령어이다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># Image Compression
+$ magick convert image.png -quality 80 image_compressed.png
+
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Reference
+<ul>
+<li><a href="https://imagemagick.org/script/command-line-processing.php" target="_blank" rel="noopener noreffer">https://imagemagick.org/script/command-line-processing.php</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="wandimagemagick-for-python">Wand(ImageMagick for python)</h2>
+<p>Python 코드내에서 ImageMagick을 사용하고 싶다면, Wand를 추천한다.
+(PythonMagick / PythonMagickWand 도 있지만 이들은 마지막 Release 버전이 10년도 넘었다.) pip를 이용 쉽게 설치하고 사용해보자</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">$ pip install wand
+
+</code></pre></td></tr></table>
+</div>
+</div><p>아래는 wand를 이용하여 PNG 이미지를 압축하는 샘플코드다. 좀더 정확히 말하자면 origin/image1.png 파일을 zlib_compression_level=8, filter_type=0 으로 압축한 파일을 compress/image1.png에 저장하는 코드이다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">from wand.image import Image
+
+with Image(filename=&#39;origin/image1.png&#39;) as img:
+    img.compression_quality = 80
+    img.save(filename=&#39;compress/image1.png&#39;)
+
+</code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="lambda-함수-작성-tip">Lambda 함수 작성 Tip</h2>
+<h3 id="환경변수-사용">환경변수 사용</h3>
+<p>s3 제어를 위해 access_key 및 secret_key 사용이 필요했고, 이를 lambda 함수의 환경변수로 셋팅하고 코드에 사용했다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ACCESS_KEY = os.environ.get(&#39;ACCESS_KEY&#39;)
+SECRET_KEY = os.environ.get(&#39;SECRET_KEY&#39;)
+
+</code></pre></td></tr></table>
+</div>
+</div><p>AWS Lambda &gt; 함수선택 &gt; 환경변수에 설정하고, 위 코드처럼 가져다 쓰면된다.</p>
+<hr>
+<h3 id="external-library를-포함하여-함수-생성하는-방법">External Library를 포함하여 함수 생성하는 방법</h3>
+<p>AWS CLI 명령어를 이용하면 간편하게 External Library를 포함하여 Lambda 함수를 갱신할 수 있다.
+wand라는 python 패키지를 lambda 함수에 포함시켜 보았다.
+wand는 python코드로 ImageMagick library를 사용할 수 있게 해주는 패키지이다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 패키지 설치용 폴더 생성
+$ mkdir package
+$ cd package
+
+# 해당 경로에 패키지 설치
+$ pip install wand --target .
+
+# zip파일로 압축
+$ zip -r9 ../function.zip .
+$ cd ..
+
+# lambda 함수 소스코드를 압축파일에 추가
+$ zip -g function.zip function.py
+
+# 압축 파일을 통하여 Lambda 함수 갱신
+$ aws lambda update-function-code --function-name ${람다함수명} --zip-file fileb://function.zip
+
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Refecence
+<ul>
+<li><a href="https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html" target="_blank" rel="noopener noreffer">https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html</a></li>
+<li><a href="https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/with-s3-example.html" target="_blank" rel="noopener noreffer">[AWS docs] 자습서: Amazon S3과 함께 AWS Lambda 사용</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="lambda-함수-s3-event-trigger-테스트-방법">Lambda 함수 s3 event trigger 테스트 방법</h3>
+<p>아래와 같이 s3 ObjectCreated Event 샘플을 이용하여 테스트 이벤트를 구성하였다. 아래 코드를 사용시 파일에서 bucket과 object key부분을 수정해서 사용하면 됩니다. 그 외 다른 Service의 Event가 필요하다면 Reference를 참고하여 테스트 이벤트를 구성하면 됩니다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">{
+  &#34;Records&#34;: [
+    {
+      &#34;eventVersion&#34;: &#34;2.1&#34;,
+      &#34;eventSource&#34;: &#34;aws:s3&#34;,
+      &#34;awsRegion&#34;: &#34;ap-northeast-2&#34;,
+      &#34;eventTime&#34;: &#34;2019-04-05T07:49:12.805Z&#34;,
+      &#34;eventName&#34;: &#34;ObjectCreated:Put&#34;,
+      &#34;userIdentity&#34;: {
+        &#34;principalId&#34;: &#34;AWS:생략&#34;
+      },
+      &#34;requestParameters&#34;: {
+        &#34;sourceIPAddress&#34;: &#34;###.###.##.##&#34;
+      },
+      &#34;responseElements&#34;: {
+        &#34;x-amz-request-id&#34;: &#34;생략&#34;,
+        &#34;x-amz-id-2&#34;: &#34;생략&#34;
+      },
+      &#34;s3&#34;: {
+        &#34;s3SchemaVersion&#34;: &#34;1.0&#34;,
+        &#34;configurationId&#34;: &#34;생략&#34;,
+        &#34;bucket&#34;: {
+          &#34;name&#34;: &#34;s3.bucket.name&#34;,
+          &#34;ownerIdentity&#34;: {
+            &#34;principalId&#34;: &#34;생략&#34;
+          },
+          &#34;arn&#34;: &#34;arn:aws:s3:::s3.bucket.name&#34;
+        },
+        &#34;object&#34;: {
+          &#34;key&#34;: &#34;object.key&#34;,
+          &#34;size&#34;: 1024,
+          &#34;eTag&#34;: &#34;생략&#34;,
+          &#34;sequencer&#34;: &#34;생략&#34;
+        }
+      }
+    }
+  ]
+}
+
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Reference
+<ul>
+<li><a href="https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/eventsources.html" target="_blank" rel="noopener noreffer">https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/eventsources.html</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="완성된-코드">완성된 코드</h3>
+<ul>
+<li><a href="https://github.com/IanJang/lambda-wand-image-convert" target="_blank" rel="noopener noreffer">https://github.com/IanJang/lambda-wand-image-convert</a></li>
+</ul>
+<hr>
+<h2 id="issue--solution">Issue &amp; Solution</h2>
+<h3 id="magick-no-decode-delegate-for-this-image-format-png">magick: no decode delegate for this image format `PNG&rsquo;</h3>
+<ul>
+<li>에러메시지</li>
+</ul>
+<blockquote>
+<p>magick: no decode delegate for this image format `PNG&rsquo; @ error/constitute.c/ReadImage/556.</p>
+</blockquote>
+<ul>
+<li>원인: libpng library가 없는 경우임</li>
+<li>해결: sudo apt-get install libpng-dev 로 설치</li>
+<li>Reference
+<ul>
+<li><a href="http://www.libpng.org/pub/png/libpng.html" target="_blank" rel="noopener noreffer">http://www.libpng.org/pub/png/libpng.html</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="event가-무한히-trigger-되는-문제">Event가 무한히 Trigger 되는 문제</h3>
+<p>s3에서 파일을 다운 &gt; 로컬에서 변형 &gt; s3에 업로드하는 Lambda함수를 구성하고, 이 함수의 Event Trigger로 s3 ObjectCreated Event를 걸었다. Lambda함수가 s3 Event에 의해 Trigger되어 잘 수행되는지 테스트를 진행는데&hellip; 뭔가 이상했다. Lambda함수가 무한히 호출되고 있었다.</p>
+<ul>
+<li>원인
+<ul>
+<li>원인은 간단했다. 사용자가 s3에 파일을 업로드 하는것도 S3 ObjectCreated Event를 발생시키지만, Lambda 함수를 통해서 s3에 파일 업로드가 되는 것 또한 ObjectCreated Event를 발생시키기 때문이다.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>s3 파일 업로드(ObjectCreated)
+-&gt; Lambda함수 수행(ObjectCreated)
+-&gt; Lambda함수 수행2(ObjectCreated)
+&hellip;
+-&gt; Lambda함수 수행N(ObjectCreated)</p>
+</blockquote>
+<ul>
+<li>해결
+<ul>
+<li>이를 방지하기 위해서, s3 CreatedObject Event Trigger에 Object Prefix를 제한하여, 특정 경로에 파일 업로드시만 Event가 Trigger 되도록 한다.</li>
+<li>Lambda 함수 내부에서 s3에 파일을 재업로드 해야한다면, 업로드 경로로 Event가 Trigger되는 경로는 반드시 피해야한다.</li>
+<li>s3 버킷을 별도로 구성해서, 한쪽에는 Event Trigger를 걸고, 다른쪽에 함수 수행결과를 업로드 하는 방법도 있다.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="error-clienterror-an-error-occurred-404-when-calling-the-headobject-operation-not-found-traceback-most-recent-call-last">[ERROR] ClientError: An error occurred (404) when calling the HeadObject operation: Not Found Traceback (most recent call last)</h3>
+<p>파일명이 test (1).png인 파일을 s3에 업로드 했더니, Lambda 함수 수행이 실패했다. 로그를 확인하니 위와같은 에러가 발생했고, 더 자세히 들여다 보니 s3 ObjectCreated event에 포함된 object key값이 test+%281%29.png과 같이 깨져있었다. 이 key값을 가지고 s3 파일 다운로드를 object를 찾지 못하고 에러가 발생한 것이다.</p>
+<ul>
+<li>원인: s3 event에 담아서 전달되는 object key값은 URL 인코딩됨. 이를 디코딩 없이 사용하여 문제 발생</li>
+<li>해결: key를 디코딩 하여 사용</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">from urllib.parse import unquote_plus
+...
+decoded_key = unquote_plus(key)
+
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Reference
+<ul>
+<li><a href="https://forums.aws.amazon.com/thread.jspa?threadID=215813" target="_blank" rel="noopener noreffer">https://forums.aws.amazon.com/thread.jspa?threadID=215813</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="task-timed-out-after-300-seconds">Task timed out after 3.00 seconds</h3>
+<p>앞서 만든 이미지 변환 Lambda함수를 테스트했더니, 용량이 큰 파일에 대해서는 제대로 동작하지 않는 것을 확인했다. 친절한 에러 메세지덕에 timeout 문제임을 알 수 있었다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># CloudWatch 에러로그
+REPORT RequestId: ae6e0aae-9ca4-4f1a-ac65-b23cf75bb4fd	Duration: 3003.50 ms	Billed Duration: 3000 ms Memory Size: 128 MB	Max Memory Used: 65 MB	
+2019-04-05T01:15:03.289Z ae6e0aae-9ca4-4f1a-ac65-b23cf75bb4fd Task timed out after 3.00 seconds
+
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>해결
+<ul>
+<li>Lambda 함수의 메모리(MB)를 128MB -&gt; 256MB로 늘여서 해결하였다.</li>
+<li>함수에 할당하는 메모리를 증가시키면, CPU도 그에 비례하게 함수에 할당되고, 이로인해 함수 수행속도가 빨라진다. 다만, 비용도 그만큼 증가한다. 용도에 맞게 적절한 타협점을 찾는게 중요할 듯하다.</li>
+</ul>
+</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2019-04-05</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94/" data-title="AWS Lambda, S3를 이용한 이미지 변환 자동화(feat. ImageMagick)" data-hashtags="AWS,S3,Lambda"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94/" data-hashtag="AWS"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94/" data-title="AWS Lambda, S3를 이용한 이미지 변환 자동화(feat. ImageMagick)" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94/" data-title="AWS Lambda, S3를 이용한 이미지 변환 자동화(feat. ImageMagick)"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://example.org/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94/" data-title="AWS Lambda, S3를 이용한 이미지 변환 자동화(feat. ImageMagick)"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="Share on Myspace" data-sharer="myspace" data-url="http://example.org/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94/" data-title="AWS Lambda, S3를 이용한 이미지 변환 자동화(feat. ImageMagick)" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="Share on Blogger" data-sharer="blogger" data-url="http://example.org/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94/" data-title="AWS Lambda, S3를 이용한 이미지 변환 자동화(feat. ImageMagick)" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94/" data-title="AWS Lambda, S3를 이용한 이미지 변환 자동화(feat. ImageMagick)"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/aws/">AWS</a>,&nbsp;<a href="/tags/s3/">S3</a>,&nbsp;<a href="/tags/lambda/">Lambda</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0/" class="prev" rel="prev" title="Crontab 이용하여 주기적으로 오래된 파일 제거하기"><i class="fas fa-angle-left fa-fw"></i>Crontab 이용하여 주기적으로 오래된 파일 제거하기</a>
+            <a href="/aws-ec2-volume-size-%EB%8A%98%EC%9D%B4%EA%B8%B0/" class="next" rel="next" title="구동중인 AWS EC2 디스크 용량 늘이기">구동중인 AWS EC2 디스크 용량 늘이기<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.68.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2017 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">IanJang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":20},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

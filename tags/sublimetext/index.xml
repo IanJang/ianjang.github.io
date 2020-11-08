@@ -1,0 +1,16 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>SublimeText - Tag - Ian Jang&#39;s IT Blog</title>
+        <link>http://example.org/tags/sublimetext/</link>
+        <description>SublimeText - Tag - Ian Jang&#39;s IT Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ianjang0718@gmail.com (IanJang)</managingEditor>
+            <webMaster>ianjang0718@gmail.com (IanJang)</webMaster><lastBuildDate>Sat, 04 Mar 2017 00:00:00 &#43;0900</lastBuildDate><atom:link href="http://example.org/tags/sublimetext/" rel="self" type="application/rss+xml" /><item>
+    <title>Sublime Text3에서 Markdown 문서 작성하기</title>
+    <link>http://example.org/sublimetext3%EC%97%90%EC%84%9C-markdown-%EB%AC%B8%EC%84%9C-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0/</link>
+    <pubDate>Sat, 04 Mar 2017 00:00:00 &#43;0900</pubDate>
+    <author>Author</author>
+    <guid>http://example.org/sublimetext3%EC%97%90%EC%84%9C-markdown-%EB%AC%B8%EC%84%9C-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0/</guid>
+    <description><![CDATA[들어가며 블로깅을 하기로 결심하고서, 이에 적합한 Markdown Editor를 찾다보니 굉장히 다양한 Markdown Tool이 있더라. 걔중에는 유료툴도 있고, 한국인 개발자가 만든 하루패드(Haroo pad)도 매우 평이 좋았다. 어떤것을 쓸까 고민하던 중 문득 Sublime Text에 Markdown용 Plugin이 있지 않을까 하는 생각이 들었다. 역시나 다양한 Plugin들이 존재했고, 그중 몇가지를 소개하려한다.
+ 나무위키:마크다운 What is MarkDown?   Markdown Editing &amp; Markdown Preview Markdown Editing은 Markdown 문법으로 문서작성을 할 수 있도록 도와준다. 세가지 문법(Standard Markdown, GitHub flavored Markdown, MultiMarkdown) 을 지원하고, Syntax Highlighting과 몇 가지 Color scheme 제공한다.]]></description>
+</item></channel>
+</rss>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Crontab 이용하여 주기적으로 오래된 파일 제거하기 - Ian Jang&#39;s IT Blog</title><meta name="Description" content="Ian Jang&#39;s IT Blog"><meta property="og:title" content="Crontab 이용하여 주기적으로 오래된 파일 제거하기" />
+<meta property="og:description" content="들어가며 특정 경로에 파일(로그, 이미지등)이 누적해서 쌓인다면, 언젠가는 디스크 용량을 가득 채울 수 있다. 이 경우, 특정기간이 지난 파일을 지워주거나, 압축하여 별도 저장소로 옮긴다거나 하는 과정이 필요하다. 스크립트를 작성하고 crontab에 등록하여 이러한 과정을 자동화 할 수 있다.
+ Crontab 명령어 1 2 3 4 5 6 7 8  # crontab 추가 / 수정 $ crontab -e # crontab 확인 $ crontab -l # crontab 로그 확인 $ cat /var/log/syslog | grep CRON    Crontab default editor 변경 contab -e 명령 수행시 nano editor로 설정파일이 열려 당황했다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0/" />
+<meta property="og:image" content="http://example.org/logo.png"/>
+<meta property="article:published_time" content="2019-04-04T00:00:00+09:00" />
+<meta property="article:modified_time" content="2019-04-04T00:00:00+09:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://example.org/logo.png"/>
+
+<meta name="twitter:title" content="Crontab 이용하여 주기적으로 오래된 파일 제거하기"/>
+<meta name="twitter:description" content="들어가며 특정 경로에 파일(로그, 이미지등)이 누적해서 쌓인다면, 언젠가는 디스크 용량을 가득 채울 수 있다. 이 경우, 특정기간이 지난 파일을 지워주거나, 압축하여 별도 저장소로 옮긴다거나 하는 과정이 필요하다. 스크립트를 작성하고 crontab에 등록하여 이러한 과정을 자동화 할 수 있다.
+ Crontab 명령어 1 2 3 4 5 6 7 8  # crontab 추가 / 수정 $ crontab -e # crontab 확인 $ crontab -l # crontab 로그 확인 $ cat /var/log/syslog | grep CRON    Crontab default editor 변경 contab -e 명령 수행시 nano editor로 설정파일이 열려 당황했다."/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://example.org/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0/" /><link rel="prev" href="http://example.org/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" /><link rel="next" href="http://example.org/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Crontab 이용하여 주기적으로 오래된 파일 제거하기",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0\/"
+        },"genre": "posts","keywords": "Crontab, Linux","wordcount":  306 ,
+        "url": "http:\/\/example.org\/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0\/","datePublished": "2019-04-04T00:00:00+09:00","dateModified": "2019-04-04T00:00:00+09:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "IanJang"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Ian Jang&#39;s IT Blog">Ian Jang&#39;s IT Blog</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Ian Jang&#39;s IT Blog">Ian Jang&#39;s IT Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Crontab 이용하여 주기적으로 오래된 파일 제거하기</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>IanJang</a></span>&nbsp;<span class="post-category">included in <a href="/categories/linux/"><i class="far fa-folder fa-fw"></i>Linux</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-04-04">2019-04-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;306 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#들어가며">들어가며</a></li>
+    <li><a href="#crontab-명령어">Crontab 명령어</a></li>
+    <li><a href="#crontab-default-editor-변경">Crontab default editor 변경</a></li>
+    <li><a href="#sudo-command-수행을-crontab에-걸고-싶을-때">sudo command 수행을 crontab에 걸고 싶을 때</a></li>
+    <li><a href="#오래된-파일-제거-script">오래된 파일 제거 Script</a></li>
+    <li><a href="#직접-완성한-crontab-예시">직접 완성한 Crontab 예시</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="들어가며">들어가며</h2>
+<p>특정 경로에 파일(로그, 이미지등)이 누적해서 쌓인다면, 언젠가는 디스크 용량을 가득 채울 수 있다. 이 경우, 특정기간이 지난 파일을 지워주거나, 압축하여 별도 저장소로 옮긴다거나 하는 과정이 필요하다. 스크립트를 작성하고 crontab에 등록하여 이러한 과정을 자동화 할 수 있다.</p>
+<hr>
+<h2 id="crontab-명령어">Crontab 명령어</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># crontab 추가 / 수정</span>
+$ crontab -e
+
+<span class="c1"># crontab 확인</span>
+$ crontab -l
+
+<span class="c1"># crontab 로그 확인</span>
+$ cat /var/log/syslog <span class="p">|</span> grep CRON
+</code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="crontab-default-editor-변경">Crontab default editor 변경</h2>
+<p>contab -e 명령 수행시 nano editor로 설정파일이 열려 당황했다.
+이 때 아래와 같이 해결했다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 기본 에디터를 고르는 명령어 수행</span>
+$ <span class="k">select</span>-editor
+
+<span class="c1"># nano로 셋팅된것을, vim으로 변경</span>
+Select an editor.  To change later, run <span class="s1">&#39;select-editor&#39;</span>.
+  1. /bin/ed
+  2. /bin/nano        &lt;---- easiest
+  3. /usr/bin/vim.basic
+  4. /usr/bin/vim.tiny
+
+Choose 1-4 <span class="o">[</span>2<span class="o">]</span>: <span class="m">3</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Reference
+<ul>
+<li><a href="http://www.42.mach7x.com/2017/02/01/changing-default-editor-for-crontab-from-vi-to-vim/" target="_blank" rel="noopener noreffer">http://www.42.mach7x.com/2017/02/01/changing-default-editor-for-crontab-from-vi-to-vim/</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="sudo-command-수행을-crontab에-걸고-싶을-때">sudo command 수행을 crontab에 걸고 싶을 때</h2>
+<p>root 계정의 crontab을 수정하면 된다.
+참고로 sudo를 빼면 현재 로그인된 계정에 대한 crontab이 수정된다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ sudo crontab -e
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Reference
+<ul>
+<li><a href="https://askubuntu.com/questions/173924/how-to-run-a-cron-job-using-the-sudo-command" target="_blank" rel="noopener noreffer">https://askubuntu.com/questions/173924/how-to-run-a-cron-job-using-the-sudo-command</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="오래된-파일-제거-script">오래된 파일 제거 Script</h2>
+<p>아래 명령어들을 잘 활용하면 된다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># * 수정한지 90일 이상 된 파일과 디렉토리 조회</span>
+$ find . -mtime +90 -ls
+
+<span class="c1"># 수정한지 90일 이상된 파일만 조회</span>
+$ find . -mtime +90 -type f -ls
+
+<span class="c1"># 수정한지 90일 이상된 파일만 삭제</span>
+<span class="c1"># 정기적으로 90일지 지난 파일을 삭제할 때 유용 )</span>
+$ sudo find . -mtime +90 -type f -ls -exec rm -f <span class="o">{}</span> <span class="se">\\</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>직접 완성한 스크립트이다. 기간은 days 변수를 두어 수정이 편하게 하였다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># remove_old_files.sh</span>
+<span class="nv">path</span> <span class="o">=</span> <span class="s2">&#34;/home/ubuntu/work/data/&#34;</span>
+<span class="nv">days</span> <span class="o">=</span> <span class="m">90</span>
+sudo find <span class="si">${</span><span class="nv">path</span><span class="si">}</span> -mtime +<span class="si">${</span><span class="nv">days</span><span class="si">}</span> -type f -ls -exec rm -f <span class="o">{}</span> <span class="se">\\</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Reference
+<ul>
+<li><a href="https://zetawiki.com/wiki/%EB%A6%AC%EB%88%85%EC%8A%A4_%EB%82%A0%EC%A7%9C_%EA%B8%B0%EC%A4%80%EC%9C%BC%EB%A1%9C_%ED%8C%8C%EC%9D%BC_%EC%82%AD%EC%A0%9C%ED%95%98%EA%B8%B0" target="_blank" rel="noopener noreffer">https://zetawiki.com/wiki/리눅스_날짜_기준으로_파일_삭제하기</a></li>
+<li><a href="https://zetawiki.com/wiki/%EB%A6%AC%EB%88%85%EC%8A%A4_n%EC%9D%BC%EC%A0%84_%ED%8C%8C%EC%9D%BC_%EC%82%AD%EC%A0%9C" target="_blank" rel="noopener noreffer">https://zetawiki.com/wiki/리눅스_n일전_파일_삭제</a></li>
+<li><a href="https://dbrang.tistory.com/867" target="_blank" rel="noopener noreffer">https://dbrang.tistory.com/867</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="직접-완성한-crontab-예시">직접 완성한 Crontab 예시</h2>
+<p>UTC기준 매 15시 1분에 수행되도록 하였고, 수행시 로그를 남기도록 하였다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">1 15 * * * /home/ubuntu/myscripts/remove_old_files.sh &gt;&gt; /home/ubuntu/myscripts/remove_old_files.sh.log 2&gt;&amp;1
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Reference
+<ul>
+<li><a href="https://jdm.kr/blog/2" target="_blank" rel="noopener noreffer">https://jdm.kr/blog/2</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2019-04-04</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://example.org/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0/" data-title="Crontab 이용하여 주기적으로 오래된 파일 제거하기" data-hashtags="Crontab,Linux"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://example.org/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0/" data-hashtag="Crontab"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="http://example.org/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0/" data-title="Crontab 이용하여 주기적으로 오래된 파일 제거하기" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://example.org/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0/" data-title="Crontab 이용하여 주기적으로 오래된 파일 제거하기"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://example.org/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0/" data-title="Crontab 이용하여 주기적으로 오래된 파일 제거하기"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="Share on Myspace" data-sharer="myspace" data-url="http://example.org/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0/" data-title="Crontab 이용하여 주기적으로 오래된 파일 제거하기" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="Share on Blogger" data-sharer="blogger" data-url="http://example.org/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0/" data-title="Crontab 이용하여 주기적으로 오래된 파일 제거하기" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="http://example.org/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0/" data-title="Crontab 이용하여 주기적으로 오래된 파일 제거하기"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/crontab/">Crontab</a>,&nbsp;<a href="/tags/linux/">Linux</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" class="prev" rel="prev" title="AWS Media Convert 내용 정리"><i class="fas fa-angle-left fa-fw"></i>AWS Media Convert 내용 정리</a>
+            <a href="/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94/" class="next" rel="next" title="AWS Lambda, S3를 이용한 이미지 변환 자동화(feat. ImageMagick)">AWS Lambda, S3를 이용한 이미지 변환 자동화(feat. ImageMagick)<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.68.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2017 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">IanJang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":20},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
