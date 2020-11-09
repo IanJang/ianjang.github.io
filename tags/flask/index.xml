@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>Flask - Tag - Ian Jang&#39;s IT Blog</title>
-        <link>http://example.org/tags/flask/</link>
+        <link>http://ianjang.github.io/tags/flask/</link>
         <description>Flask - Tag - Ian Jang&#39;s IT Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ianjang0718@gmail.com (IanJang)</managingEditor>
-            <webMaster>ianjang0718@gmail.com (IanJang)</webMaster><lastBuildDate>Thu, 09 Feb 2017 00:00:00 &#43;0900</lastBuildDate><atom:link href="http://example.org/tags/flask/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>ianjang0718@gmail.com (IanJang)</webMaster><lastBuildDate>Thu, 09 Feb 2017 00:00:00 &#43;0900</lastBuildDate><atom:link href="http://ianjang.github.io/tags/flask/" rel="self" type="application/rss+xml" /><item>
     <title>Python Flask with SQLAlchemy</title>
-    <link>http://example.org/python-flask-with-sqlalchemy/</link>
+    <link>http://ianjang.github.io/python-flask-with-sqlalchemy/</link>
     <pubDate>Thu, 09 Feb 2017 00:00:00 &#43;0900</pubDate>
     <author>Author</author>
-    <guid>http://example.org/python-flask-with-sqlalchemy/</guid>
+    <guid>http://ianjang.github.io/python-flask-with-sqlalchemy/</guid>
     <description><![CDATA[들어가며 pymysql을 이용해서 flask에서 Database를 다뤄봤다. 헌데 뭔가 부족한 감이있다. 자원을 체계적으로 관리하기 힘들어 보였다. 그래서 다른 모듈이 있지 않을까 하여 구글링해보았다. 그 결과 SQLAlchemy 또는 Flask-SQLAlchemy를 이용한 케이스들이 많더라. 어떤것을 사용하는게 좋을까?
 SQLAlchemy vs. Flask-SQLAlchemy 우선 지속적으로 관리가 되고 있는지가 궁금했다. Github에서 각각의 repository를 살펴봤다. 먼저 Flask-SQLAlchemy는 2.1 버전이 stable한 버전이며 2015년 10월 23일에 Release 되었다. 반면 SQLAlchemy는 22일 전인 2017년 1월 18일에 1.1.5 버전이 release 되었으며, Release history를 보면 꾸준히 버전이 Update 되고 있음을 확인할 수 있었다.]]></description>
 </item></channel>

@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>BeautifulSoup - Tag - Ian Jang&#39;s IT Blog</title>
-        <link>http://example.org/tags/beautifulsoup/</link>
+        <link>http://ianjang.github.io/tags/beautifulsoup/</link>
         <description>BeautifulSoup - Tag - Ian Jang&#39;s IT Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ianjang0718@gmail.com (IanJang)</managingEditor>
-            <webMaster>ianjang0718@gmail.com (IanJang)</webMaster><lastBuildDate>Sat, 04 Feb 2017 00:00:00 &#43;0900</lastBuildDate><atom:link href="http://example.org/tags/beautifulsoup/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>ianjang0718@gmail.com (IanJang)</webMaster><lastBuildDate>Sat, 04 Feb 2017 00:00:00 &#43;0900</lastBuildDate><atom:link href="http://ianjang.github.io/tags/beautifulsoup/" rel="self" type="application/rss+xml" /><item>
     <title>Python BeautifulSoup 이용 크롤링하기</title>
-    <link>http://example.org/python-beautifulsoup-%EC%9D%B4%EC%9A%A9-%ED%81%AC%EB%A1%A4%EB%A7%81%ED%95%98%EA%B8%B0/</link>
+    <link>http://ianjang.github.io/python-beautifulsoup-%EC%9D%B4%EC%9A%A9-%ED%81%AC%EB%A1%A4%EB%A7%81%ED%95%98%EA%B8%B0/</link>
     <pubDate>Sat, 04 Feb 2017 00:00:00 &#43;0900</pubDate>
     <author>Author</author>
-    <guid>http://example.org/python-beautifulsoup-%EC%9D%B4%EC%9A%A9-%ED%81%AC%EB%A1%A4%EB%A7%81%ED%95%98%EA%B8%B0/</guid>
+    <guid>http://ianjang.github.io/python-beautifulsoup-%EC%9D%B4%EC%9A%A9-%ED%81%AC%EB%A1%A4%EB%A7%81%ED%95%98%EA%B8%B0/</guid>
     <description><![CDATA[BeautifulSoup 설치 Python을 통한 클로링에 대해서 서치해보니, beautifulSoup를 활용한 예제들이 많더라. 우선 설치해보자.
 1  $ pip install beautifulSoup4   크롤링 시작하기 클리앙의 모두의공원 카테고리의 글을 크롤링해보려 한다. 레퍼런스 사이트내용을 참고해서 아래와 같이 진행해 보았다. 우선 해당 페이지의 모든 html text를 긁어와보자
 1 2 3 4 5 6 7 8  import requests from bs4 import BeautifulSoup if __name__ == &#39;__main__&#39;: url = &#34;http://www.clien.net/cs2/bbs/board.php?bo_table=park&#34; source_code = requests.get(url) plain_text = source_code.]]></description>

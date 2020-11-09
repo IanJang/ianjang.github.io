@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>Linux - Category - Ian Jang&#39;s IT Blog</title>
-        <link>http://example.org/categories/linux/</link>
+        <link>http://ianjang.github.io/categories/linux/</link>
         <description>Linux - Category - Ian Jang&#39;s IT Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ianjang0718@gmail.com (IanJang)</managingEditor>
-            <webMaster>ianjang0718@gmail.com (IanJang)</webMaster><lastBuildDate>Thu, 04 Apr 2019 00:00:00 &#43;0900</lastBuildDate><atom:link href="http://example.org/categories/linux/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>ianjang0718@gmail.com (IanJang)</webMaster><lastBuildDate>Thu, 04 Apr 2019 00:00:00 &#43;0900</lastBuildDate><atom:link href="http://ianjang.github.io/categories/linux/" rel="self" type="application/rss+xml" /><item>
     <title>Crontab 이용하여 주기적으로 오래된 파일 제거하기</title>
-    <link>http://example.org/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0/</link>
+    <link>http://ianjang.github.io/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0/</link>
     <pubDate>Thu, 04 Apr 2019 00:00:00 &#43;0900</pubDate>
     <author>Author</author>
-    <guid>http://example.org/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0/</guid>
+    <guid>http://ianjang.github.io/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0/</guid>
     <description><![CDATA[들어가며 특정 경로에 파일(로그, 이미지등)이 누적해서 쌓인다면, 언젠가는 디스크 용량을 가득 채울 수 있다. 이 경우, 특정기간이 지난 파일을 지워주거나, 압축하여 별도 저장소로 옮긴다거나 하는 과정이 필요하다. 스크립트를 작성하고 crontab에 등록하여 이러한 과정을 자동화 할 수 있다.
  Crontab 명령어 1 2 3 4 5 6 7 8  # crontab 추가 / 수정 $ crontab -e # crontab 확인 $ crontab -l # crontab 로그 확인 $ cat /var/log/syslog | grep CRON    Crontab default editor 변경 contab -e 명령 수행시 nano editor로 설정파일이 열려 당황했다.]]></description>
 </item></channel>
