@@ -4,7 +4,16 @@
         <link>http://ianjang.github.io/posts/</link>
         <description>All Posts | Ian Jang&#39;s IT Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ianjang0718@gmail.com (IanJang)</managingEditor>
-            <webMaster>ianjang0718@gmail.com (IanJang)</webMaster><lastBuildDate>Wed, 01 Jan 2020 00:00:00 &#43;0900</lastBuildDate><atom:link href="http://ianjang.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>ianjang0718@gmail.com (IanJang)</webMaster><lastBuildDate>Fri, 13 Nov 2020 01:16:00 &#43;0900</lastBuildDate><atom:link href="http://ianjang.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Django ORM PostgreSQL JSONField에 대해 exclude 구문 사용시 주의사항</title>
+    <link>http://ianjang.github.io/django-orm-postgresql-jsonfield%EC%97%90-%EB%8C%80%ED%95%B4-exclude-%EA%B5%AC%EB%AC%B8-%EC%82%AC%EC%9A%A9%EC%8B%9C-%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD/</link>
+    <pubDate>Fri, 13 Nov 2020 01:16:00 &#43;0900</pubDate>
+    <author>Author</author>
+    <guid>http://ianjang.github.io/django-orm-postgresql-jsonfield%EC%97%90-%EB%8C%80%ED%95%B4-exclude-%EA%B5%AC%EB%AC%B8-%EC%82%AC%EC%9A%A9%EC%8B%9C-%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD/</guid>
+    <description><![CDATA[PostgreSQL JSONField에 대하여 ORM 구문 작성 시 exclude를 사용한다면 주의하길 바랍니다. JSONField에 대한 질의 결과가 일반적인(?) 예상과는 조금 다른 결과가 나옵니다. 때문에 이 같은 내용을 모르고 사용한다면 혼란에 빠질 수 있습니다. 실제로 본인 포함한 여러 개발자가 동일한 케이스로 혼란을 겪은 경험이 있습니다. 본 글의 내용을 접한 분들은 동일한 혼란을 겪지 않을 수 있길 바랍니다.
+(본 글은 Django 3.0.7, psycopg2-binary 2.8.5, PostgreSQL 12.4 기준으로 테스트 후 작성 되었습니다.)
+ JSONField 필터링 테스트 아래 코드 처럼 Book 모델을 구성되어 있고.]]></description>
+</item><item>
     <title>EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기</title>
     <link>http://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/</link>
     <pubDate>Wed, 01 Jan 2020 00:00:00 &#43;0900</pubDate>
@@ -83,14 +92,5 @@ SQLAlchemy vs. Flask-SQLAlchemy 우선 지속적으로 관리가 되고 있는�
     <description><![CDATA[BeautifulSoup 설치 Python을 통한 클로링에 대해서 서치해보니, beautifulSoup를 활용한 예제들이 많더라. 우선 설치해보자.
 1  $ pip install beautifulSoup4   크롤링 시작하기 클리앙의 모두의공원 카테고리의 글을 크롤링해보려 한다. 레퍼런스 사이트내용을 참고해서 아래와 같이 진행해 보았다. 우선 해당 페이지의 모든 html text를 긁어와보자
 1 2 3 4 5 6 7 8  import requests from bs4 import BeautifulSoup if __name__ == &#39;__main__&#39;: url = &#34;http://www.clien.net/cs2/bbs/board.php?bo_table=park&#34; source_code = requests.get(url) plain_text = source_code.]]></description>
-</item><item>
-    <title>Jekyll3로 블로그 만들기</title>
-    <link>http://ianjang.github.io/jekyll3%EB%A1%9C-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0/</link>
-    <pubDate>Fri, 20 Jan 2017 00:00:00 &#43;0900</pubDate>
-    <author>Author</author>
-    <guid>http://ianjang.github.io/jekyll3%EB%A1%9C-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0/</guid>
-    <description><![CDATA[들어가며 Jekyll을 이용하여 블로그를 구성해보자
-사전준비 Ruby  Jekyll 2 사용 시 v1.9.3 이상 / Jekyll 3 사용 시 v2 이상 나는 2.3.3 버전을 설치했다. &ldquo;설치경로\bin&rdquo; 을 환경변수에 추가하자. Download Link: https://rubyinstaller.org/downloads  RubyGems  Ruby 1.9 이상의 버전을 설치하면 RubyGems가 동봉되어있다. 이미 우리는 2.3.3 버전을 설치했으므로 패스.   Download Link: https://www.python.org/downloads   Jekyll 설치하기 매우 간단하다. 아래와같이 명령어를 타이핑하면된다.
-1  $ gem install jekyll    Jekyll 템플릿 적용하기 검색해보면 다양한 jekyll Free templete들이 존재한다.]]></description>
 </item></channel>
 </rss>

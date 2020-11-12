@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-	<meta name="generator" content="Hugo 0.79.0-DEV" />
+	<meta name="generator" content="Hugo 0.68.3" />
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
@@ -11,7 +11,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://ianjang.github.io/" />
 <meta property="og:image" content="http://ianjang.github.io/logo.png"/>
-<meta property="og:updated_time" content="2020-01-01T00:00:00+09:00" />
+<meta property="og:updated_time" content="2020-11-13T01:16:00+09:00" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="http://ianjang.github.io/logo.png"/>
 
@@ -103,6 +103,12 @@
         alt="/img/avatar-ianjang.png"
         title="/img/avatar-ianjang.png" /></a></div><h1 class="home-title">Ian Jang's IT Blog</h1><h2 class="home-subtitle">Welcome to my Blog!</h2><div class="links"><a href="https://github.com/ianjang" title="GitHub" target="_blank" rel="noopener noreffer me"><i class="fab fa-github-alt fa-fw"></i></a><a href="https://linkedin.com/in/ianjang" title="LinkedIn" target="_blank" rel="noopener noreffer me"><i class="fab fa-linkedin fa-fw"></i></a><a href="mailto:ianjang0718@gmail.com" title="Email" rel=" me"><i class="far fa-envelope fa-fw"></i></a><a href="/index.xml" title="RSS" target="_blank" rel="noopener noreffer me"><i class="fas fa-rss fa-fw"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/django-orm-postgresql-jsonfield%EC%97%90-%EB%8C%80%ED%95%B4-exclude-%EA%B5%AC%EB%AC%B8-%EC%82%AC%EC%9A%A9%EC%8B%9C-%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD/">Django ORM PostgreSQL JSONField에 대해 exclude 구문 사용시 주의사항</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>IanJang</a></span>&nbsp;<span class="post-publish">published on <time datetime="2020-11-13">2020-11-13</time></span></div><div class="content">PostgreSQL JSONField에 대하여 ORM 구문 작성 시 exclude를 사용한다면 주의하길 바랍니다. JSONField에 대한 질의 결과가 일반적인(?) 예상과는 조금 다른 결과가 나옵니다. 때문에 이 같은 내용을 모르고 사용한다면 혼란에 빠질 수 있습니다. 실제로 본인 포함한 여러 개발자가 동일한 케이스로 혼란을 겪은 경험이 있습니다. 본 글의 내용을 접한 분들은 동일한 혼란을 겪지 않을 수 있길 바랍니다.
+(본 글은 Django 3.0.7, psycopg2-binary 2.8.5, PostgreSQL 12.4 기준으로 테스트 후 작성 되었습니다.)
+ JSONField 필터링 테스트 아래 코드 처럼 Book 모델을 구성되어 있고.</div><div class="post-footer">
+        <a href="/django-orm-postgresql-jsonfield%EC%97%90-%EB%8C%80%ED%95%B4-exclude-%EA%B5%AC%EB%AC%B8-%EC%82%AC%EC%9A%A9%EC%8B%9C-%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD/">Read More</a></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/">EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>IanJang</a></span>&nbsp;<span class="post-publish">published on <time datetime="2020-01-01">2020-01-01</time></span>&nbsp;<span class="post-category">included in <a href="/categories/aws/"><i class="far fa-folder fa-fw"></i>AWS</a></span></div><div class="content">들어가며 AWS CloudWatch를 이용하여 AWS Cloud Infrastructure에 대한 다양한 지표를 대시보드 형태로 구성하여 모니터링을 할 수 있다. 다만 EC2내부의 DiskSpace와 MemoryUsage에 대해서 모니터링을 하기 위해서는 별도 작업이 필요하다.
  EC2 내부에 지표 수집용 스크립트 설치 DiskSpace, MemoryUsage에 대한 지표를 수집하기 원하는 EC2에 SSH 접속 후 아래 스크립트를 수행하자.
@@ -134,16 +140,6 @@ ImageMagick Option 정말 다양한 옵션값이 있다. 간단하게는 Quality
 Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Demand 요금      fps&lt;=30 30&lt;fps&lt;=60 60&lt;fps&lt;=120     SD 0.0085 USD 0.0106 USD 0.0127 USD   HD 0.0170 USD 0.0212 USD 0.0255 USD   UHD 0.0340 USD 0.0425 USD 0.0510 USD      RTS(ReservedTranscodeSlots) 요금 12개월 약정: 500 USD</div><div class="post-footer">
         <a href="/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/">Read More</a><div class="post-tags">
                 <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/aws/">AWS</a>,&nbsp;<a href="/tags/mediaconvert/">MediaConvert</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/jekyll-template-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0/">Jekyll Template 적용하기</a>
-    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>IanJang</a></span>&nbsp;<span class="post-publish">published on <time datetime="2017-04-01">2017-04-01</time></span>&nbsp;<span class="post-category">included in <a href="/categories/etc/"><i class="far fa-folder fa-fw"></i>ETC</a></span></div><div class="content">마음에드는 Template 찾기 우선 아래 사이트들 중, 혹은 구글링을 통해 마음에 드는 jekyll Template을 찾는다.
- http://jekyllthemes.org/ https://jekyllthemes.io/ https://github.com/jekyll/jekyll/wiki/Themes  나는 template으로 lanyon-plus을 선택했다. 군더더기 없이 심플한 UI가 무척 맘에 들었다.
-lanyon-plus Git-hub: https://github.com/dyndna/lanyon-plus
- Template 다운로드 아마도 대부분의 jekyll template이 github에 공유되어 있을 것이다. template을 다운받거나 git 으로 clone하자. 나는 git clone방식을 택했다.
-1  $ git clone https://github.com/dyndna/lanyon-plus.git   Package 설치 template을 다운받은 경로에서 jekyll을 구동해보자.
-1  $ jekyll serve   아마도 잘 되지 않을것이며, 아래와 같은 에러메시지를 마주할 것이다.</div><div class="post-footer">
-        <a href="/jekyll-template-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/etc/">ETC</a>,&nbsp;<a href="/tags/jekyll/">Jekyll</a></div></div>
 </article><ul class="pagination"><li class="page-item active">
                     <span class="page-link">
                         <a href="/">1</a>
@@ -154,7 +150,7 @@ lanyon-plus Git-hub: https://github.com/dyndna/lanyon-plus
                     </span>
                 </li></ul></div></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.79.0-DEV">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.68.3">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
                 </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2017 - 2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">IanJang</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
         </div>
     </footer></div>
