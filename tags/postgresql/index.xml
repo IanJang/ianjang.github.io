@@ -1,0 +1,17 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>PostgreSQL - Tag - Ian Jang&#39;s IT Blog</title>
+        <link>http://ianjang.github.io/tags/postgresql/</link>
+        <description>PostgreSQL - Tag - Ian Jang&#39;s IT Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ianjang0718@gmail.com (IanJang)</managingEditor>
+            <webMaster>ianjang0718@gmail.com (IanJang)</webMaster><lastBuildDate>Fri, 13 Nov 2020 01:16:00 &#43;0900</lastBuildDate><atom:link href="http://ianjang.github.io/tags/postgresql/" rel="self" type="application/rss+xml" /><item>
+    <title>Django ORM PostgreSQL JSONField에 대해 exclude 구문 사용시 주의사항</title>
+    <link>http://ianjang.github.io/django-orm-postgresql-jsonfield%EC%97%90-%EB%8C%80%ED%95%B4-exclude-%EA%B5%AC%EB%AC%B8-%EC%82%AC%EC%9A%A9%EC%8B%9C-%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD/</link>
+    <pubDate>Fri, 13 Nov 2020 01:16:00 &#43;0900</pubDate>
+    <author>Author</author>
+    <guid>http://ianjang.github.io/django-orm-postgresql-jsonfield%EC%97%90-%EB%8C%80%ED%95%B4-exclude-%EA%B5%AC%EB%AC%B8-%EC%82%AC%EC%9A%A9%EC%8B%9C-%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD/</guid>
+    <description><![CDATA[PostgreSQL JSONField에 대하여 ORM 구문 작성 시 exclude를 사용한다면 주의하길 바랍니다. JSONField에 대한 질의 결과가 일반적인(?) 예상과는 조금 다른 결과가 나옵니다. 때문에 이 같은 내용을 모르고 사용한다면 혼란에 빠질 수 있습니다. 실제로 본인 포함한 여러 개발자가 동일한 케이스로 혼란을 겪은 경험이 있습니다. 본 글의 내용을 접한 분들은 동일한 혼란을 겪지 않을 수 있길 바랍니다.
+(본 글은 Django 3.0.7, psycopg2-binary 2.8.5, PostgreSQL 12.4 기준으로 테스트 후 작성 되었습니다.)
+ JSONField 필터링 테스트 아래 코드 처럼 Book 모델을 구성되어 있고.]]></description>
+</item></channel>
+</rss>
