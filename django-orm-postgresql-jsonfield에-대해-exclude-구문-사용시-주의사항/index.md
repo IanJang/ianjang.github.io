@@ -113,7 +113,7 @@ WHERE  ("myapp_book"."data" -> is_published ) != 'true')
 
 풀어놓고 다시보니 쿼리문은 문제가 없어 보입니다, "myapp_book"."data" -> is_published != 'true'  조건만으로도 1, 2, 3, 4, 7, 8이 선택되야 할 것처럼 보입니다.  아래 다이어그램 처럼 말이죠..
 
-![%5BDjango%5D%20PostgreSQL%20JSONField%E1%84%8B%E1%85%A6%20%E1%84%83%E1%85%A2%E1%84%92%E1%85%A2%20exclude%20%E1%84%80%E1%85%AE%E1%84%86%E1%85%AE%E1%86%AB%207cccd268f9184c2e9d65b28f7d30f348/Untitled.png](%5BDjango%5D%20PostgreSQL%20JSONField%E1%84%8B%E1%85%A6%20%E1%84%83%E1%85%A2%E1%84%92%E1%85%A2%20exclude%20%E1%84%80%E1%85%AE%E1%84%86%E1%85%AE%E1%86%AB%207cccd268f9184c2e9d65b28f7d30f348/Untitled.png)
+![다이어그램](https://ianjang.github.io/img/jsonfield-filter-result-diagram.png)
 
 Query 구문 확인으로도 여전히 의문은 풀리지 않았습니다. 그래서 이번엔 DB에 직접 Query를 날려 보며 결과를 확인해 봤습니다.
 
