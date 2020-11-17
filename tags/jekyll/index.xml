@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>Jekyll - Tag - Ian Jang&#39;s IT Blog</title>
-        <link>http://ianjang.github.io/tags/jekyll/</link>
+        <link>https://ianjang.github.io/tags/jekyll/</link>
         <description>Jekyll - Tag - Ian Jang&#39;s IT Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ianjang0718@gmail.com (IanJang)</managingEditor>
-            <webMaster>ianjang0718@gmail.com (IanJang)</webMaster><lastBuildDate>Sat, 01 Apr 2017 00:00:00 &#43;0900</lastBuildDate><atom:link href="http://ianjang.github.io/tags/jekyll/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>ianjang0718@gmail.com (IanJang)</webMaster><lastBuildDate>Sat, 01 Apr 2017 00:00:00 &#43;0900</lastBuildDate><atom:link href="https://ianjang.github.io/tags/jekyll/" rel="self" type="application/rss+xml" /><item>
     <title>Jekyll Template 적용하기</title>
-    <link>http://ianjang.github.io/jekyll-template-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0/</link>
+    <link>https://ianjang.github.io/jekyll-template-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0/</link>
     <pubDate>Sat, 01 Apr 2017 00:00:00 &#43;0900</pubDate>
     <author>Author</author>
-    <guid>http://ianjang.github.io/jekyll-template-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0/</guid>
+    <guid>https://ianjang.github.io/jekyll-template-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0/</guid>
     <description><![CDATA[마음에드는 Template 찾기 우선 아래 사이트들 중, 혹은 구글링을 통해 마음에 드는 jekyll Template을 찾는다.
  http://jekyllthemes.org/ https://jekyllthemes.io/ https://github.com/jekyll/jekyll/wiki/Themes  나는 template으로 lanyon-plus을 선택했다. 군더더기 없이 심플한 UI가 무척 맘에 들었다.
 lanyon-plus Git-hub: https://github.com/dyndna/lanyon-plus
@@ -18,10 +18,10 @@ lanyon-plus Git-hub: https://github.com/dyndna/lanyon-plus
 1  $ jekyll serve   아마도 잘 되지 않을것이며, 아래와 같은 에러메시지를 마주할 것이다.]]></description>
 </item><item>
     <title>Jekyll3로 블로그 만들기</title>
-    <link>http://ianjang.github.io/jekyll3%EB%A1%9C-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0/</link>
+    <link>https://ianjang.github.io/jekyll3%EB%A1%9C-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0/</link>
     <pubDate>Fri, 20 Jan 2017 00:00:00 &#43;0900</pubDate>
     <author>Author</author>
-    <guid>http://ianjang.github.io/jekyll3%EB%A1%9C-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0/</guid>
+    <guid>https://ianjang.github.io/jekyll3%EB%A1%9C-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0/</guid>
     <description><![CDATA[들어가며 Jekyll을 이용하여 블로그를 구성해보자
 사전준비 Ruby  Jekyll 2 사용 시 v1.9.3 이상 / Jekyll 3 사용 시 v2 이상 나는 2.3.3 버전을 설치했다. &ldquo;설치경로\bin&rdquo; 을 환경변수에 추가하자. Download Link: https://rubyinstaller.org/downloads  RubyGems  Ruby 1.9 이상의 버전을 설치하면 RubyGems가 동봉되어있다. 이미 우리는 2.3.3 버전을 설치했으므로 패스.   Download Link: https://www.python.org/downloads   Jekyll 설치하기 매우 간단하다. 아래와같이 명령어를 타이핑하면된다.
 1  $ gem install jekyll    Jekyll 템플릿 적용하기 검색해보면 다양한 jekyll Free templete들이 존재한다.]]></description>
