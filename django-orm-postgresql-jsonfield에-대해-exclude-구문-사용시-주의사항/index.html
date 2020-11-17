@@ -6,9 +6,9 @@
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
         <title>Django ORM PostgreSQL JSONField에 대해 exclude 구문 사용시 주의사항 - Ian Jang&#39;s IT Blog</title><meta name="Description" content="Ian Jang&#39;s IT Blog"><meta property="og:title" content="Django ORM PostgreSQL JSONField에 대해 exclude 구문 사용시 주의사항" />
-<meta property="og:description" content="PostgreSQL JSONField에 대하여 ORM 구문 작성 시 exclude를 사용한다면 주의하길 바랍니다. JSONField에 대한 질의 결과가 일반적인(?) 예상과는 조금 다른 결과가 나옵니다. 때문에 이 같은 내용을 모르고 사용한다면 혼란에 빠질 수 있습니다. 실제로 본인 포함한 여러 개발자가 동일한 케이스로 혼란을 겪은 경험이 있습니다. 본 글의 내용을 접한 분들은 동일한 혼란을 겪지 않을 수 있길 바랍니다.
-(본 글은 Django 3.0.7, psycopg2-binary 2.8.5, PostgreSQL 12.4 기준으로 테스트 후 작성 되었습니다.)
- JSONField 필터링 테스트 아래 코드 처럼 Book 모델을 구성되어 있고." />
+<meta property="og:description" content="PostgreSQL JSON Field에 대하여 ORM 구문 작성 시 exclude를 사용한다면 주의하길 바랍니다. JSON Field에 대한 질의 결과가 일반적인(?) 예상과는 조금 다른 결과가 나옵니다. 그 때문에 이 같은 내용을 모르고 사용한다면 혼란에 빠질 수 있습니다. 실제로 본인 포함한 여러 개발자가 동일한 케이스로 혼란을 겪은 경험이 있습니다. 본 글의 내용을 접한 분들은 동일한 혼란을 겪지 않을 수 있길 바랍니다.
+(본 글은 Django 3.0.7, psycopg2-binary 2.8.5, PostgreSQL 12.4 기준으로 테스트 후 작성되었습니다.)
+ JSON Field 필터링 테스트 아래 코드처럼 Book 모델이 구성되어 있고." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ianjang.github.io/django-orm-postgresql-jsonfield%EC%97%90-%EB%8C%80%ED%95%B4-exclude-%EA%B5%AC%EB%AC%B8-%EC%82%AC%EC%9A%A9%EC%8B%9C-%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD/" />
 <meta property="og:image" content="https://ianjang.github.io/logo.png"/>
@@ -18,9 +18,9 @@
 <meta name="twitter:image" content="https://ianjang.github.io/logo.png"/>
 
 <meta name="twitter:title" content="Django ORM PostgreSQL JSONField에 대해 exclude 구문 사용시 주의사항"/>
-<meta name="twitter:description" content="PostgreSQL JSONField에 대하여 ORM 구문 작성 시 exclude를 사용한다면 주의하길 바랍니다. JSONField에 대한 질의 결과가 일반적인(?) 예상과는 조금 다른 결과가 나옵니다. 때문에 이 같은 내용을 모르고 사용한다면 혼란에 빠질 수 있습니다. 실제로 본인 포함한 여러 개발자가 동일한 케이스로 혼란을 겪은 경험이 있습니다. 본 글의 내용을 접한 분들은 동일한 혼란을 겪지 않을 수 있길 바랍니다.
-(본 글은 Django 3.0.7, psycopg2-binary 2.8.5, PostgreSQL 12.4 기준으로 테스트 후 작성 되었습니다.)
- JSONField 필터링 테스트 아래 코드 처럼 Book 모델을 구성되어 있고."/>
+<meta name="twitter:description" content="PostgreSQL JSON Field에 대하여 ORM 구문 작성 시 exclude를 사용한다면 주의하길 바랍니다. JSON Field에 대한 질의 결과가 일반적인(?) 예상과는 조금 다른 결과가 나옵니다. 그 때문에 이 같은 내용을 모르고 사용한다면 혼란에 빠질 수 있습니다. 실제로 본인 포함한 여러 개발자가 동일한 케이스로 혼란을 겪은 경험이 있습니다. 본 글의 내용을 접한 분들은 동일한 혼란을 겪지 않을 수 있길 바랍니다.
+(본 글은 Django 3.0.7, psycopg2-binary 2.8.5, PostgreSQL 12.4 기준으로 테스트 후 작성되었습니다.)
+ JSON Field 필터링 테스트 아래 코드처럼 Book 모델이 구성되어 있고."/>
 <meta name="application-name" content="LoveIt">
 <meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -33,7 +33,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/ianjang.github.io\/django-orm-postgresql-jsonfield%EC%97%90-%EB%8C%80%ED%95%B4-exclude-%EA%B5%AC%EB%AC%B8-%EC%82%AC%EC%9A%A9%EC%8B%9C-%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD\/"
-        },"genre": "posts","keywords": "Django, PostgreSQL, DjangoORM","wordcount":  933 ,
+        },"genre": "posts","keywords": "Django, PostgreSQL, DjangoORM","wordcount":  947 ,
         "url": "https:\/\/ianjang.github.io\/django-orm-postgresql-jsonfield%EC%97%90-%EB%8C%80%ED%95%B4-exclude-%EA%B5%AC%EB%AC%B8-%EC%82%AC%EC%9A%A9%EC%8B%9C-%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD\/","datePublished": "2020-11-13T01:16:00+09:00","dateModified": "2020-11-13T01:16:00+09:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -110,7 +110,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Django ORM PostgreSQL JSONField에 대해 exclude 구문 사용시 주의사항</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>IanJang</a></span>&nbsp;<span class="post-category">included in <a href="/categories/django/"><i class="far fa-folder fa-fw"></i>Django</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-11-13">2020-11-13</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;933 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-11-13">2020-11-13</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;947 words&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;5 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="true">
                 <div class="details-summary toc-title">
@@ -119,13 +119,13 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#jsonfield-필터링-테스트">JSONField 필터링 테스트</a>
+    <li><a href="#json-field-필터링-테스트">JSON Field 필터링 테스트</a>
       <ul>
         <li><a href="#filter-테스트">filter 테스트</a></li>
         <li><a href="#exclude-테스트">exclude 테스트</a></li>
       </ul>
     </li>
-    <li><a href="#jsonfield-필터링-시-sql-질의문query-확인">JSONField 필터링 시 SQL 질의문(Query) 확인</a>
+    <li><a href="#json-field-필터링-시-sql-질의문query-확인">JSON Field 필터링 시 SQL 질의문(Query) 확인</a>
       <ul>
         <li><a href="#filter-query">filter query</a></li>
         <li><a href="#exclude-query">exclude query</a></li>
@@ -140,11 +140,11 @@
     </li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><p>PostgreSQL JSONField에 대하여 ORM 구문 작성 시 exclude를 사용한다면 주의하길 바랍니다. JSONField에 대한 질의 결과가 일반적인(?) 예상과는 조금 다른 결과가 나옵니다. 때문에 이 같은 내용을 모르고 사용한다면 혼란에 빠질 수 있습니다.  실제로 본인 포함한 여러 개발자가 동일한 케이스로 혼란을 겪은 경험이 있습니다. 본 글의 내용을 접한 분들은 동일한 혼란을 겪지 않을 수 있길 바랍니다.</p>
-<p>(본 글은 Django 3.0.7, psycopg2-binary 2.8.5, PostgreSQL 12.4 기준으로 테스트 후 작성 되었습니다.)</p>
+            </div><div class="content" id="content"><p>PostgreSQL JSON Field에 대하여 ORM 구문 작성 시 exclude를 사용한다면 주의하길 바랍니다. JSON Field에 대한 질의 결과가 일반적인(?) 예상과는 조금 다른 결과가 나옵니다. 그 때문에 이 같은 내용을 모르고 사용한다면 혼란에 빠질 수 있습니다.  실제로 본인 포함한 여러 개발자가 동일한 케이스로 혼란을 겪은 경험이 있습니다. 본 글의 내용을 접한 분들은 동일한 혼란을 겪지 않을 수 있길 바랍니다.</p>
+<p>(본 글은 Django 3.0.7, psycopg2-binary 2.8.5, PostgreSQL 12.4 기준으로 테스트 후 작성되었습니다.)</p>
 <hr>
-<h2 id="jsonfield-필터링-테스트">JSONField 필터링 테스트</h2>
-<p>아래 코드 처럼 Book 모델을 구성되어 있고. 총 8개의 샘플 데이터가 있다고 가정합니다.</p>
+<h2 id="json-field-필터링-테스트">JSON Field 필터링 테스트</h2>
+<p>아래 코드처럼 Book 모델이 구성되어 있고. 총 8개의 샘플 데이터가 있다고 가정합니다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -190,7 +190,7 @@
 </code></pre></td></tr></table>
 </div>
 </div><h3 id="filter-테스트">filter 테스트</h3>
-<p>먼저 filter를 테스트 해 봅시다.</p>
+<p>먼저 filter를 테스트해 봅시다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -213,9 +213,9 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">row_id_set</span><span class="p">,</span> <span class="p">{</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">})</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>data__is_published=True로 필터 시 5, 6번 data가 조회 되었고, data__is_published=False로 필터 시 7, 8번 데이터가 조회 되었습니다. 의도한 대로 결과가 잘 조회됩니다.</p>
+</div><p>data__is_published=True로 필터 시 5, 6번 data가 조회되었고, data__is_published=False로 필터 시 7, 8번 데이터가 조회되었습니다. 의도한 대로 결과가 잘 조회됩니다.</p>
 <h3 id="exclude-테스트">exclude 테스트</h3>
-<p>다음으로 exclude에 대한 테스트를 해 봅시다.</p>
+<p>다음으로 exclude에 대해 테스트를 해 봅시다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -234,10 +234,10 @@
 <span class="c1"># AssertionError: Items in the second set but not the first: 2 3 4</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>AssertionError가 발생했습니다. 의도 대로라면 is_published가 True로 셋팅된 5, 6번을 제외한 1, 2, 3, 4, 7, 8번의 Book이 조회되어야 하는데, 결과는 1, 7, 8 만 조회되었습니다. 이유가 무엇일까?</p>
+</div><p>Assertion Error가 발생했습니다. 의도 대로라면 is_published가 True로 세팅된 5, 6번을 제외한 1, 2, 3, 4, 7, 8번의 Book이 조회되어야 하는데, 결과는 1, 7, 8만 조회되었습니다. 이유가 무엇일까요?</p>
 <hr>
-<h2 id="jsonfield-필터링-시-sql-질의문query-확인">JSONField 필터링 시 SQL 질의문(Query) 확인</h2>
-<p>앞서 테스트한 ORM 구문에 대해서 실제로 어떤 Query가 Database에 요청되는지 확인해 봅시다. 먼저 filter query 부터 확인해 봅시다.</p>
+<h2 id="json-field-필터링-시-sql-질의문query-확인">JSON Field 필터링 시 SQL 질의문(Query) 확인</h2>
+<p>앞서 테스트한 ORM 구문에 대해서 실제로 어떤 Query가 Database에 요청되는지 확인해 봅시다. 먼저 filter query부터 확인해 봅시다.</p>
 <h3 id="filter-query">filter query</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -291,7 +291,7 @@
 <span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>filter query와 달리 의도하지않은 구문이 포함된 것이 보입니다.  &ldquo;myapp_book&rdquo;.&ldquo;data&rdquo; IS NOT NULL 이것 때문인지 결과가 달라진 것은 아닐지 확인해 봤습니다(결론부터 말하면 상관 없음). 일단 조건절 모양이 NOT (A AND B) 꼴이어서 눈에 잘 안들어오니, 드모르간 법칙을 이용해 조건절을 보기 쉽게  NOT A OR NOT B 꼴로 바꿔봤습니다.</p>
+</div><p>filter query와 달리 의도하지 않은 구문이 포함된 것이 보입니다.  &ldquo;myapp_book&rdquo;.&ldquo;data&rdquo; IS NOT NULL 이것 때문인지 결과가 달라진 것은 아닐지 확인해 봤습니다. (결론부터 말하자면 해당 조건과는 무관했습니다) 일단 조건절 모양이 &ldquo;NOT (A AND B)&rdquo; 형태여서 눈에 잘 안 들어오니, 드모르간 법칙을 이용해 조건절을 보기 쉽게 &ldquo;NOT A OR NOT B&rdquo; 형태로 바꿔봤습니다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -306,7 +306,7 @@
     <span class="k">OR</span> <span class="p">(</span><span class="s2">&#34;myapp_book&#34;</span><span class="p">.</span><span class="s2">&#34;data&#34;</span> <span class="k">IS</span> <span class="k">NULL</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>풀어놓고 다시보니 쿼리문은 문제가 없어 보입니다, &ldquo;myapp_book&rdquo;.&ldquo;data&rdquo; -&gt; is_published != &lsquo;true&rsquo;  조건만으로도 1, 2, 3, 4, 7, 8이 선택되야 할 것처럼 보입니다.  아래 다이어그램 처럼 말이죠..</p>
+</div><p>풀어놓고 다시 보니 Query 구문 자체는 문제가 없어 보입니다, &ldquo;myapp_book&rdquo;.&ldquo;data&rdquo; -&gt; is_published != &lsquo;true&rsquo;  조건만으로도 1, 2, 3, 4, 7, 8이 선택돼야 할 것처럼 보입니다.  아래 다이어그램처럼 말이죠….</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -398,13 +398,13 @@
 </code></pre></td></tr></table>
 </div>
 </div><ul>
-<li>JSONField의 특정 key값에 대해서 IS NULL조건으로 조회하면 NONE, {}, key가 없는 것 세가지가 다 조회가 됩니다.</li>
-<li>JSONField의 특정 key값이 존재하는 row도 있고, 존재하지 않는 row도 있다면, 해당 key값에 대해 isnull 조건을 함께 사용해야 의도한 결과를 도출 할 수 있음을 알 수 있습니다.</li>
+<li>JSON Field의 특정 key 값에 대해서 &ldquo;is null&rdquo; 조건으로 조회하면 None, {}, key가 없는 것 세 가지가 다 조회가 됩니다.</li>
+<li>JSON Field의 특정 key 값이 존재하는 row도 있고, 존재하지 않는 row도 있다면, 해당 key 값에 대해 &ldquo;is null&rdquo; 조건을 함께 사용해야 의도한 결과를 도출 할 수 있음을 알 수 있습니다.</li>
 </ul>
 <h2 id="결론">결론</h2>
 <ul>
-<li>JSONField에 대해 ORM 구문 작성시 반드시 조회대상 Key값에 대하여 __isnull 조건을 함께 사용하는 습관을 들이자. 그래야 혼란을 줄일 수 있습니다.</li>
-<li>exclude 보다는 filter를 사용하자. exclude를 이용해서도 원하는 결과를 도출할 수 있지만, NOT(A AND B) 형태 보다는 A OR B 형태가 훨씬 가독성이 높기 때문에 filter를 이용하는 편이 좋다고 생각합니다.</li>
+<li>JSON Field에 대해 ORM 구문 작성 시 반드시 조회대상 Key 값에 대하여 &ldquo;is null&rdquo; 조건을 함께 사용하는 습관을 들이자. 그래야 혼란을 줄일 수 있습니다.</li>
+<li>exclude보다는 filter를 사용하자. exclude를 이용해서도 원하는 결과를 도출할 수 있지만, &ldquo;NOT(A AND B)&rdquo; 형태보다는 &ldquo;A OR B&rdquo; 형태가 훨씬 가독성이 높기 때문에 filter를 이용하는 편이 좋다고 생각합니다.</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -440,8 +440,8 @@
 <h2 id="기타-이슈-및-해결">기타 이슈 및 해결</h2>
 <h3 id="error-column-is_published-does-not-exist">ERROR: column &ldquo;is_published&rdquo; does not exist</h3>
 <ul>
-<li>현상: queryset.query 결과를 그대로 psql에서 수행시켰을 때 해당 에러가 나왔다.</li>
-<li>해결: &ldquo;myapp_book&rdquo;.&ldquo;data&rdquo; -&gt; is_published 에서 is_published을 single quote로 감싸서 query를 수행했더니 결과가 정상적으로 나왔다.</li>
+<li>현상: queryset.query 결과를 그대로 psql에서 수행시켰을 때 해당 에러가 나왔습니다.</li>
+<li>해결: &ldquo;myapp_book&rdquo;.&ldquo;data&rdquo; -&gt; is_published에서 is_published를 single quote로 감싸서 query를 수행했더니 결과가 정상적으로 나왔습니다.</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
