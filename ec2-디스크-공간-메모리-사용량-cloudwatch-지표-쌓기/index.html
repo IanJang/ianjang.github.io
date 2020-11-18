@@ -6,8 +6,8 @@
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
         <title>EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기 - Ian Jang&#39;s IT Blog</title><meta name="Description" content="Ian Jang&#39;s IT Blog"><meta property="og:title" content="EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기" />
-<meta property="og:description" content="들어가며 AWS CloudWatch를 이용하여 AWS Cloud Infrastructure에 대한 다양한 지표를 대시보드 형태로 구성하여 모니터링을 할 수 있다. 다만 EC2내부의 DiskSpace와 MemoryUsage에 대해서 모니터링을 하기 위해서는 별도 작업이 필요하다.
- EC2 내부에 지표 수집용 스크립트 설치 DiskSpace, MemoryUsage에 대한 지표를 수집하기 원하는 EC2에 SSH 접속 후 아래 스크립트를 수행하자.
+<meta property="og:description" content="들어가며 AWS CloudWatch를 이용하여 AWS Cloud Infrastructure에 대한 다양한 지표를 대시보드 형태로 구성하여 모니터링을 할 수 있습니다. 다만 EC2 내부의 디스크 공간(Disk Space)과 메모리 사용량(Memory Usage)을 모니터링하기 위해서는 별도 작업이 필요합니다.
+ EC2 내부에 지표 수집용 스크립트 설치 디스크 공간(Disk Space), 메모리 사용량(Memory Usage) 지표를 수집하고 싶은 EC2에 SSH 접속하여 아래 스크립트를 수행합시다.
 1 2 3 4 5 6 7 8 9 10  $ sudo apt-get update $ sudo apt-get install unzip $ sudo apt-get install libwww-perl libdatetime-perl $ curl &lt;https://aws-cloudwatch." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/" />
@@ -18,8 +18,8 @@
 <meta name="twitter:image" content="https://ianjang.github.io/logo.png"/>
 
 <meta name="twitter:title" content="EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기"/>
-<meta name="twitter:description" content="들어가며 AWS CloudWatch를 이용하여 AWS Cloud Infrastructure에 대한 다양한 지표를 대시보드 형태로 구성하여 모니터링을 할 수 있다. 다만 EC2내부의 DiskSpace와 MemoryUsage에 대해서 모니터링을 하기 위해서는 별도 작업이 필요하다.
- EC2 내부에 지표 수집용 스크립트 설치 DiskSpace, MemoryUsage에 대한 지표를 수집하기 원하는 EC2에 SSH 접속 후 아래 스크립트를 수행하자.
+<meta name="twitter:description" content="들어가며 AWS CloudWatch를 이용하여 AWS Cloud Infrastructure에 대한 다양한 지표를 대시보드 형태로 구성하여 모니터링을 할 수 있습니다. 다만 EC2 내부의 디스크 공간(Disk Space)과 메모리 사용량(Memory Usage)을 모니터링하기 위해서는 별도 작업이 필요합니다.
+ EC2 내부에 지표 수집용 스크립트 설치 디스크 공간(Disk Space), 메모리 사용량(Memory Usage) 지표를 수집하고 싶은 EC2에 SSH 접속하여 아래 스크립트를 수행합시다.
 1 2 3 4 5 6 7 8 9 10  $ sudo apt-get update $ sudo apt-get install unzip $ sudo apt-get install libwww-perl libdatetime-perl $ curl &lt;https://aws-cloudwatch."/>
 <meta name="application-name" content="LoveIt">
 <meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -33,7 +33,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/ianjang.github.io\/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0\/"
-        },"genre": "posts","keywords": "EC2, CloudWatch","wordcount":  304 ,
+        },"genre": "posts","keywords": "EC2, CloudWatch, Lambda, Slack","wordcount":  317 ,
         "url": "https:\/\/ianjang.github.io\/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0\/","datePublished": "2020-01-01T00:00:00+09:00","dateModified": "2020-01-01T00:00:00+09:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -110,7 +110,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>IanJang</a></span>&nbsp;<span class="post-category">included in <a href="/categories/aws/"><i class="far fa-folder fa-fw"></i>AWS</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-01-01">2020-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;304 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-01-01">2020-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;317 words&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;2 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="true">
                 <div class="details-summary toc-title">
@@ -122,18 +122,18 @@
     <li><a href="#들어가며">들어가며</a></li>
     <li><a href="#ec2-내부에-지표-수집용-스크립트-설치">EC2 내부에 지표 수집용 스크립트 설치</a></li>
     <li><a href="#지표-수집-동작-검증">지표 수집 동작 검증</a></li>
-    <li><a href="#crontab-연동하여-주기적으로-지표-수집-시작">Crontab 연동하여 주기적으로 지표 수집 시작</a></li>
-    <li><a href="#cloudwatch에서-확인">CloudWatch에서 확인</a></li>
-    <li><a href="#cloudwatch-경보-sns-lambda-이용-slack에-푸시">CloudWatch 경보 SNS Lambda 이용 Slack에 푸시</a></li>
-    <li><a href="#끝내며">끝내며</a></li>
+    <li><a href="#crontab-이용-주기적으로-지표-수집하기">Crontab 이용 주기적으로 지표 수집하기</a></li>
+    <li><a href="#cloudwatch에서-지표-수집-여부-확인">CloudWatch에서 지표 수집 여부 확인</a></li>
+    <li><a href="#cloudwatch-경보를-sns-lambda를-이용하여-slack에-알리기">CloudWatch 경보를 SNS, Lambda를 이용하여 Slack에 알리기</a></li>
+    <li><a href="#맺으며">맺으며</a></li>
     <li><a href="#reference">Reference</a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="들어가며">들어가며</h2>
-<p>AWS CloudWatch를 이용하여 AWS Cloud Infrastructure에 대한 다양한 지표를 대시보드 형태로 구성하여 모니터링을 할 수 있다. 다만 EC2내부의 DiskSpace와 MemoryUsage에 대해서 모니터링을 하기 위해서는 별도 작업이 필요하다.</p>
+<p>AWS CloudWatch를 이용하여 AWS Cloud Infrastructure에 대한 다양한 지표를 대시보드 형태로 구성하여 모니터링을 할 수 있습니다. 다만 EC2 내부의 디스크 공간(Disk Space)과 메모리 사용량(Memory Usage)을 모니터링하기 위해서는 별도 작업이 필요합니다.</p>
 <hr>
 <h2 id="ec2-내부에-지표-수집용-스크립트-설치">EC2 내부에 지표 수집용 스크립트 설치</h2>
-<p>DiskSpace, MemoryUsage에 대한 지표를 수집하기 원하는 EC2에 SSH 접속 후 아래 스크립트를 수행하자.</p>
+<p>디스크 공간(Disk Space), 메모리 사용량(Memory Usage) 지표를 수집하고 싶은 EC2에 SSH 접속하여 아래 스크립트를 수행합시다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -160,7 +160,7 @@ $ <span class="nb">cd</span> aws-scripts-mon
 $ cp awscreds.template awscreds.conf
 </code></pre></td></tr></table>
 </div>
-</div><p>이후 아래 권한이 부여된 IAM 계정을 생성하고, 해당 계정의 AccessKey, SecretAccessKey를 awscreds.conf 파일에 입력하자.</p>
+</div><p>이후 아래 권한들이 부여된 IAM 계정을 생성하고, 해당 계정의 AccessKey, SecretAccessKey를 awscreds.conf 파일에 입력합시다.</p>
 <ul>
 <li>필요권한
 <ul>
@@ -172,7 +172,7 @@ $ cp awscreds.template awscreds.conf
 </ul>
 <hr>
 <h2 id="지표-수집-동작-검증">지표 수집 동작 검증</h2>
-<p>아래 스크립트를 수행하여 결과를 확인한다. Verification completed successfully. No actual metrics sent to CloudWatch. 메시지가 출력되면 성공!</p>
+<p>아래 스크립트를 수행하여 결과를 확인합니다. &ldquo;Verification completed successfully. No actual metrics sent to CloudWatch.&rdquo; 메시지가 출력되면 성공입니다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -182,8 +182,8 @@ $ cp awscreds.template awscreds.conf
 </code></pre></td></tr></table>
 </div>
 </div><hr>
-<h2 id="crontab-연동하여-주기적으로-지표-수집-시작">Crontab 연동하여 주기적으로 지표 수집 시작</h2>
-<p>동작 검증이 끝났지만 지표가 실제로 수집되고 있는 것은 아니다. 실제로 지표를 수집하려면 crontab을 이용하여 주기적으로 스크립트가 수행되도록 작업이 필요하다. 아래 스크립트를 참고하여 작업하자.</p>
+<h2 id="crontab-이용-주기적으로-지표-수집하기">Crontab 이용 주기적으로 지표 수집하기</h2>
+<p>지표 수집 동작 검증이 완료되었지 실제로 지표가 수집되고 있는 것은 아닙니다. 실제로 지표를 수집하려면 crontab을 이용하여 주기적으로 스크립트가 수행되도록 작업이 필요합니다. 아래 스크립트를 참고하여 추가 작업을 진행합니다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -199,20 +199,20 @@ $ cp awscreds.template awscreds.conf
 </code></pre></td></tr></table>
 </div>
 </div><hr>
-<h2 id="cloudwatch에서-확인">CloudWatch에서 확인</h2>
-<p>모든 작업이 끝났다면 CloudWatch에 접속 후 아래 경로대로 이동하여 지표가 잘 쌓이는지 확인하자.</p>
+<h2 id="cloudwatch에서-지표-수집-여부-확인">CloudWatch에서 지표 수집 여부 확인</h2>
+<p>모든 작업이 끝났다면 CloudWatch에 접속 후 아래 경로로 이동 후 지표가 잘 쌓이고 있는지 확인합시다.</p>
 <ul>
 <li>CloudWatch 접속 &gt; 좌측 지표 메뉴 선택 &gt; 하단 [사용자 지정 네임스페이스] 확인 &gt; System/Linux 선택</li>
 </ul>
 <hr>
-<h2 id="cloudwatch-경보-sns-lambda-이용-slack에-푸시">CloudWatch 경보 SNS Lambda 이용 Slack에 푸시</h2>
-<p>CloudWatch 경보를 이용하여 디스크 용량, 메모리 사용률이 위험수치에 도달했을 때 Slack에 푸시가 올 수 있도록 작업 할 수 있다. 아래 링크 참고!</p>
+<h2 id="cloudwatch-경보를-sns-lambda를-이용하여-slack에-알리기">CloudWatch 경보를 SNS, Lambda를 이용하여 Slack에 알리기</h2>
+<p>특정 EC2에 대해서 디스크 용량, 메모리 사용률이 위험수치에 도달했을 때 Slack에 알림이 되도록 작업 할 수 있습니다. 자세한 내용은 아래 링크를 참고합시다.</p>
 <ul>
 <li><a href="https://brunch.co.kr/@alden/56" target="_blank" rel="noopener noreffer">https://brunch.co.kr/@alden/56</a></li>
 </ul>
 <hr>
-<h2 id="끝내며">끝내며</h2>
-<p>나의 경우는 대부분의 디스크 용량 문제는 로그관리를 잘 하지 못해서 발생했다. 로그 외에도 점진 적으로 데이터가 쌓일 수 밖에 없는 어플리케이션 구조를 갖고 있다면, 해당 데이터를 주기적으로 백업하는 방안을 마련해야 할 것이다. 그 방안이 마련되기 전, 혹은 마련 후에도 디스크 용량 문제 발생 가능성을 미연에 감지하기 위해서 본 작업이 유용할 것이라고 생각된다.</p>
+<h2 id="맺으며">맺으며</h2>
+<p>디스크 공간이 가득 차는 문제는 애플리케이션이 점진적으로 데이터가 쌓이는 구조로 되어 있다면 필연적으로 발생합니다. 이럴 때 데이터를 주기적으로 별도 공간에 백업 후 삭제하거나 하는 방안을 마련해야 합니다. 메모리 사용률은 트래픽 증가, 메모리 누수 등의 이유로 위험 수치에 도달할 수 있습니다. 본 글의 내용이 이러한 문제를 미연에 감지하고 예방하는 데 도움이 되길 바랍니다.</p>
 <hr>
 <h2 id="reference">Reference</h2>
 <ul>
@@ -231,13 +231,13 @@ $ cp awscreds.template awscreds.conf
                             <a class="link-to-markdown" href="/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/index.md" target="_blank">Read Markdown</a>
                         </span></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/" data-title="EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기" data-hashtags="EC2,CloudWatch"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/" data-hashtag="EC2"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="https://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/" data-title="EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/" data-title="EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/" data-title="EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="Share on Myspace" data-sharer="myspace" data-url="https://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/" data-title="EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="Share on Blogger" data-sharer="blogger" data-url="https://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/" data-title="EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="https://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/" data-title="EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기"><i class="fab fa-evernote fa-fw"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/" data-title="EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기" data-hashtags="EC2,CloudWatch,Lambda,Slack"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/" data-hashtag="EC2"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="https://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/" data-title="EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/" data-title="EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/" data-title="EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="Share on Myspace" data-sharer="myspace" data-url="https://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/" data-title="EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="Share on Blogger" data-sharer="blogger" data-url="https://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/" data-title="EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="https://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/" data-title="EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기"><i class="fab fa-evernote fa-fw"></i></a></span>
             </div>
         </div>
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/ec2/">EC2</a>,&nbsp;<a href="/tags/cloudwatch/">CloudWatch</a></section>
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/ec2/">EC2</a>,&nbsp;<a href="/tags/cloudwatch/">CloudWatch</a>,&nbsp;<a href="/tags/lambda/">Lambda</a>,&nbsp;<a href="/tags/slack/">Slack</a></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
         </section>
