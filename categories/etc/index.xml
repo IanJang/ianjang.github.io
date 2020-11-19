@@ -10,12 +10,11 @@
     <pubDate>Sat, 01 Apr 2017 00:00:00 &#43;0900</pubDate>
     <author>Author</author>
     <guid>https://ianjang.github.io/jekyll-template-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0/</guid>
-    <description><![CDATA[마음에드는 Template 찾기 우선 아래 사이트들 중, 혹은 구글링을 통해 마음에 드는 jekyll Template을 찾는다.
- http://jekyllthemes.org/ https://jekyllthemes.io/ https://github.com/jekyll/jekyll/wiki/Themes  나는 template으로 lanyon-plus을 선택했다. 군더더기 없이 심플한 UI가 무척 맘에 들었다.
-lanyon-plus Git-hub: https://github.com/dyndna/lanyon-plus
- Template 다운로드 아마도 대부분의 jekyll template이 github에 공유되어 있을 것이다. template을 다운받거나 git 으로 clone하자. 나는 git clone방식을 택했다.
-1  $ git clone https://github.com/dyndna/lanyon-plus.git   Package 설치 template을 다운받은 경로에서 jekyll을 구동해보자.
-1  $ jekyll serve   아마도 잘 되지 않을것이며, 아래와 같은 에러메시지를 마주할 것이다.]]></description>
+    <description><![CDATA[들어가며 윈도우 환경에서 Jekyll을 사용해 보고 그 내용을 정리해 보았습니다.
+ 마음에 드는 템플릿 찾기 우선 아래 사이트 중, 혹은 구글링을 통해 마음에 드는 jekyll 템플릿을 찾습니다.
+ http://jekyllthemes.org/ https://jekyllthemes.io/ https://github.com/jekyll/jekyll/wiki/Themes  저는 lanyon-plus을 선택했습니다. 군더더기 없이 심플한 UI가 무척 맘에 들었습니다.
+ lanyon-plus github repo: https://github.com/dyndna/lanyon-plus   템플릿 다운로드 아마도 대부분의 jekyll 템플릿이 github에 공유되어 있을 것입니다. 아래 명령으로 내려 받습니다.
+1  $ git clone https://github.com/dyndna/lanyon-plus.git   Package 설치 템플릿을 다운받은 경로에서 jekyll을 구동해봅시다.]]></description>
 </item><item>
     <title>Sublime Text3에서 Markdown 문서 작성하기</title>
     <link>https://ianjang.github.io/sublimetext3%EC%97%90%EC%84%9C-markdown-%EB%AC%B8%EC%84%9C-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0/</link>
@@ -30,8 +29,7 @@ lanyon-plus Git-hub: https://github.com/dyndna/lanyon-plus
     <pubDate>Fri, 20 Jan 2017 00:00:00 &#43;0900</pubDate>
     <author>Author</author>
     <guid>https://ianjang.github.io/jekyll3%EB%A1%9C-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0/</guid>
-    <description><![CDATA[들어가며 Jekyll을 이용하여 블로그를 구성해보자
-사전준비 Ruby  Jekyll 2 사용 시 v1.9.3 이상 / Jekyll 3 사용 시 v2 이상 나는 2.3.3 버전을 설치했다. &ldquo;설치경로\bin&rdquo; 을 환경변수에 추가하자. Download Link: https://rubyinstaller.org/downloads  RubyGems  Ruby 1.9 이상의 버전을 설치하면 RubyGems가 동봉되어있다. 이미 우리는 2.3.3 버전을 설치했으므로 패스.   Download Link: https://www.python.org/downloads   Jekyll 설치하기 매우 간단하다. 아래와같이 명령어를 타이핑하면된다.
-1  $ gem install jekyll    Jekyll 템플릿 적용하기 검색해보면 다양한 jekyll Free templete들이 존재한다.]]></description>
+    <description><![CDATA[들어가며 Jekyll을 이용하여 블로그를 구성해봅시다.
+사전준비 Ruby 설치  Jekyll 2 사용 시 v1.9.3 이상 / Jekyll 3 사용 시 v2 이상 저는 2.3.3 버전을 설치했습니다. &ldquo;설치경로\bin&rdquo; 을 환경변수에 추가합시다. Download Link: https://rubyinstaller.org/downloads  RubyGems 설치  Ruby 1.9 이상의 버전을 설치하면 RubyGems가 동봉되어 있습니다. (2.3.3 버전을 설치했으므로 패스)   Download Link: https://www.python.org/downloads   Jekyll 설치하기 1  $ gem install jekyll    Jekyll 템플릿 적용하기 검색해보면 다양한 jekyll 무료 템플릿이 존재합니다.]]></description>
 </item></channel>
 </rss>
