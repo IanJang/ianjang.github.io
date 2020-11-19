@@ -6,8 +6,8 @@
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
         <title>Python Flask with SQLAlchemy - Ian Jang&#39;s IT Blog</title><meta name="Description" content="Ian Jang&#39;s IT Blog"><meta property="og:title" content="Python Flask with SQLAlchemy" />
-<meta property="og:description" content="들어가며 pymysql을 이용해서 flask에서 Database를 다뤄봤다. 헌데 뭔가 부족한 감이있다. 자원을 체계적으로 관리하기 힘들어 보였다. 그래서 다른 모듈이 있지 않을까 하여 구글링해보았다. 그 결과 SQLAlchemy 또는 Flask-SQLAlchemy를 이용한 케이스들이 많더라. 어떤것을 사용하는게 좋을까?
-SQLAlchemy vs. Flask-SQLAlchemy 우선 지속적으로 관리가 되고 있는지가 궁금했다. Github에서 각각의 repository를 살펴봤다. 먼저 Flask-SQLAlchemy는 2.1 버전이 stable한 버전이며 2015년 10월 23일에 Release 되었다. 반면 SQLAlchemy는 22일 전인 2017년 1월 18일에 1.1.5 버전이 release 되었으며, Release history를 보면 꾸준히 버전이 Update 되고 있음을 확인할 수 있었다." />
+<meta property="og:description" content="들어가며 pymysql을 이용해서 flask에서 Database를 다뤄보았습니다. 뭔가 부족한 감이 있었습니다. 자원을 체계적으로 관리하기 힘들어 보였습니다. 그래서 대안을 찾아보았고 SQLAlchemy과 Flask-SQLAlchemy에 대한 사례들이 있었습니다. 본문에 관련 내용을 정리해 보았습니다.
+ SQLAlchemy vs. Flask-SQLAlchemy 우선 모듈이 지속적으로 관리가 되고 있는지가 궁금했습니다. Github에서 각각의 저장소를 살펴봤습니다. 먼저 Flask-SQLAlchemy는 2.1 버전이 최신 stable 버전이며, 2015년 10월 23일에 Release 되었습니다. 반면 SQLAlchemy는 22일 전인 2017년 1월 18일에 1.1.5 버전이 release 되었으며, Release history를 보면 꾸준히 버전이 Update 되고 있음을 확인할 수 있었습니다." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ianjang.github.io/python-flask-with-sqlalchemy/" />
 <meta property="og:image" content="https://ianjang.github.io/logo.png"/>
@@ -17,8 +17,8 @@ SQLAlchemy vs. Flask-SQLAlchemy 우선 지속적으로 관리가 되고 있는�
 <meta name="twitter:image" content="https://ianjang.github.io/logo.png"/>
 
 <meta name="twitter:title" content="Python Flask with SQLAlchemy"/>
-<meta name="twitter:description" content="들어가며 pymysql을 이용해서 flask에서 Database를 다뤄봤다. 헌데 뭔가 부족한 감이있다. 자원을 체계적으로 관리하기 힘들어 보였다. 그래서 다른 모듈이 있지 않을까 하여 구글링해보았다. 그 결과 SQLAlchemy 또는 Flask-SQLAlchemy를 이용한 케이스들이 많더라. 어떤것을 사용하는게 좋을까?
-SQLAlchemy vs. Flask-SQLAlchemy 우선 지속적으로 관리가 되고 있는지가 궁금했다. Github에서 각각의 repository를 살펴봤다. 먼저 Flask-SQLAlchemy는 2.1 버전이 stable한 버전이며 2015년 10월 23일에 Release 되었다. 반면 SQLAlchemy는 22일 전인 2017년 1월 18일에 1.1.5 버전이 release 되었으며, Release history를 보면 꾸준히 버전이 Update 되고 있음을 확인할 수 있었다."/>
+<meta name="twitter:description" content="들어가며 pymysql을 이용해서 flask에서 Database를 다뤄보았습니다. 뭔가 부족한 감이 있었습니다. 자원을 체계적으로 관리하기 힘들어 보였습니다. 그래서 대안을 찾아보았고 SQLAlchemy과 Flask-SQLAlchemy에 대한 사례들이 있었습니다. 본문에 관련 내용을 정리해 보았습니다.
+ SQLAlchemy vs. Flask-SQLAlchemy 우선 모듈이 지속적으로 관리가 되고 있는지가 궁금했습니다. Github에서 각각의 저장소를 살펴봤습니다. 먼저 Flask-SQLAlchemy는 2.1 버전이 최신 stable 버전이며, 2015년 10월 23일에 Release 되었습니다. 반면 SQLAlchemy는 22일 전인 2017년 1월 18일에 1.1.5 버전이 release 되었으며, Release history를 보면 꾸준히 버전이 Update 되고 있음을 확인할 수 있었습니다."/>
 <meta name="application-name" content="LoveIt">
 <meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -124,7 +124,7 @@ SQLAlchemy vs. Flask-SQLAlchemy 우선 지속적으로 관리가 되고 있는�
         <li><a href="#transaction-isolation-level">Transaction Isolation Level</a></li>
       </ul>
     </li>
-    <li><a href="#issue-and-solution">Issue and Solution</a>
+    <li><a href="#이슈-및-해결">이슈 및 해결</a>
       <ul>
         <li><a href="#modulenotfounderror-no-module-named-mysqldb">ModuleNotFoundError: No module named &lsquo;MySQLdb&rsquo;</a></li>
         <li><a href="#sqlalchemy-with-pymysql-한글깨짐">Sqlalchemy with pymysql 한글깨짐</a></li>
@@ -134,12 +134,12 @@ SQLAlchemy vs. Flask-SQLAlchemy 우선 지속적으로 관리가 되고 있는�
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="들어가며">들어가며</h2>
-<p>pymysql을 이용해서 flask에서 Database를 다뤄봤다. 헌데 뭔가 부족한 감이있다. 자원을 체계적으로 관리하기 힘들어 보였다. 그래서 다른 모듈이 있지 않을까 하여 구글링해보았다.
-그 결과 SQLAlchemy 또는 Flask-SQLAlchemy를 이용한 케이스들이 많더라. 어떤것을 사용하는게 좋을까?</p>
+<p>pymysql을 이용해서 flask에서 Database를 다뤄보았습니다. 뭔가 부족한 감이 있었습니다. 자원을 체계적으로 관리하기 힘들어 보였습니다. 그래서 대안을 찾아보았고 SQLAlchemy과 Flask-SQLAlchemy에 대한 사례들이 있었습니다. 본문에 관련 내용을 정리해 보았습니다.</p>
+<hr>
 <h2 id="sqlalchemy-vs-flask-sqlalchemy">SQLAlchemy vs. Flask-SQLAlchemy</h2>
-<p>우선 지속적으로 관리가 되고 있는지가 궁금했다. Github에서 각각의 repository를 살펴봤다.
-먼저 Flask-SQLAlchemy는 2.1 버전이 stable한 버전이며 2015년 10월 23일에 Release 되었다.
-반면 SQLAlchemy는 22일 전인 2017년 1월 18일에 1.1.5 버전이 release 되었으며, Release history를 보면 꾸준히 버전이 Update 되고 있음을 확인할 수 있었다. 그래서  SQLAlchemy를 쓰기로 결정했다.</p>
+<p>우선 모듈이 지속적으로 관리가 되고 있는지가 궁금했습니다. Github에서 각각의 저장소를 살펴봤습니다.
+먼저 Flask-SQLAlchemy는 2.1 버전이 최신 stable 버전이며, 2015년 10월 23일에 Release 되었습니다.
+반면 SQLAlchemy는 22일 전인 2017년 1월 18일에 1.1.5 버전이 release 되었으며, Release history를 보면 꾸준히 버전이 Update 되고 있음을 확인할 수 있었습니다. 그래서 SQLAlchemy를 쓰기로 결정했습니다.</p>
 <ul>
 <li>Reference
 <ul>
@@ -150,16 +150,16 @@ SQLAlchemy vs. Flask-SQLAlchemy 우선 지속적으로 관리가 되고 있는�
 </ul>
 <hr>
 <h2 id="sqlalchemy-시작하기">SQLAlchemy 시작하기</h2>
-<p>먼저 SQLAlchemy를 설치하자.</p>
+<p>먼저 SQLAlchemy를 설치합시다</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">$ pip install sqlalchemy
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ pip install sqlalchemy
 </code></pre></td></tr></table>
 </div>
-</div><p>최신 버전인 1.1.5 버전이 설치됬다.</p>
+</div><p>최신 버전인 1.1.5 버전이 설치되었습니다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -178,9 +178,9 @@ Installing collected packages: sqlalchemy
 Successfully installed sqlalchemy-1.1.5
 </code></pre></td></tr></table>
 </div>
-</div><p>본격적으로 이용 방법을 알아보자. 아래는 API 문서링크이다.
+</div><p>본격적으로 이용 방법을 알아봅시다. 아래는 API 문서링크입니다.
 <a href="http://docs.sqlalchemy.org/en/latest" target="_blank" rel="noopener noreffer">SQLAlchemy official API Doc</a></p>
-<p>먼저 database.py를 작성하자.</p>
+<p>먼저 database.py를 작성합시다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -237,7 +237,7 @@ Successfully installed sqlalchemy-1.1.5
     <span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>create_engine()의 두 파라미터를 통해서 DB Connection 정보와 Transation Isolation level을 설정한다.</p>
+</div><p>create_engine()의 두 파라미터를 통해서 DB Connection 정보와 Transation Isolation level을 설정합니다.</p>
 <hr>
 <h3 id="transaction-isolation-level">Transaction Isolation Level</h3>
 <ul>
@@ -245,14 +245,14 @@ Successfully installed sqlalchemy-1.1.5
 <li>READ UNCOMMITTED</li>
 <li>REPEATABLE READ</li>
 <li>SERIALIZABLE</li>
-<li>AUTOCOMMIT
-위 다섯가지 종류를 지원한다. 혹 Transaction Isolation Level에 대해 잘 모른다면 <a href="http://hundredin.net/2012/07/26/isolation-level/" target="_blank" rel="noopener noreffer">데이터베이스 Isolation Level</a>을 참고.</li>
+<li>AUTOCOMMIT</li>
 </ul>
+<p>위 다섯가지 종류를 지원합니다. Transaction Isolation Level에 대해서는 <a href="http://hundredin.net/2012/07/26/isolation-level/" target="_blank" rel="noopener noreffer">데이터베이스 Isolation Level</a>을 참고합시다.</p>
 <hr>
-<p>다음으로 scoped_session을 이용하여 session을 생성한다. 이를 이용하면 내부적으로 Thread 처리를 해주기 때문에 편리하다.</p>
-<p>declarative_base()을 호출하여 생성한 Base는 Table과 mapper를 만들기 위한 역할 한다.</p>
+<p>다음으로 scoped_session을 이용하여 session을 생성합니다. 이를 이용하면 내부적으로 Thread 처리를 해주기 때문에 편리합니다.</p>
+<p>declarative_base()을 호출하여 생성한 Base는 Table과 mapper를 만들기 위한 역할 합니다.</p>
 <hr>
-<p>이어서 모델을 만들자. 특정 사이트를 크롤링해서 링크를 정도를 걸기위한 목적으로 아래와 같은 모델을 구성해보았다.</p>
+<p>이어서 모델을 만듭시다. 특정 사이트를 크롤링해서 링크를 정도를 걸기 위한 목적으로 아래와 같은 모델을 구성해보았습니다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -321,12 +321,12 @@ Successfully installed sqlalchemy-1.1.5
         <span class="k">return</span> <span class="s1">&#39;&lt;Summary </span><span class="si">%r</span><span class="s1">&gt;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subject</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>DB Table과 적절히 매핑되기 위해 필드를 구성하고, __init__와 __repr__함수를 작성하자.
-<strong>init</strong>(self, &hellip;)는 생성자, <strong>repr</strong>(self)는 print를 했을 시 출력형태를 정의하는 함수다.</p>
+</div><p>DB Table과 적절히 매핑되기 위해 필드를 구성하고, __init__와 __repr__함수를 작성합시다.
+<strong>init</strong>(self, &hellip;)는 생성자, <strong>repr</strong>(self)는 print를 했을 시 출력형태를 정의하는 함수 입니다.</p>
 <hr>
-<h2 id="issue-and-solution">Issue and Solution</h2>
+<h2 id="이슈-및-해결">이슈 및 해결</h2>
 <h3 id="modulenotfounderror-no-module-named-mysqldb">ModuleNotFoundError: No module named &lsquo;MySQLdb&rsquo;</h3>
-<p>앱을 실행시켰더니 아래와같은 에러가 나왔다.</p>
+<p>앱을 실행시켰더니 아래와같은 에러가 나왔습니다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt"> 1
@@ -341,16 +341,16 @@ Successfully installed sqlalchemy-1.1.5
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">Traceback (most recent call last):
-  File &#34;D:\workspace\SuitFlaskApp\suit\database.py&#34;, line 12, in &lt;module&gt;
-    isolation_level=&#34;READ_UNCOMMITTED&#34;
-  File &#34;C:\Python36\lib\site-packages\sqlalchemy\engine\__init__.py&#34;, line 387, in create_engine
-    return strategy.create(*args, **kwargs)
-  File &#34;C:\Python36\lib\site-packages\sqlalchemy\engine\strategies.py&#34;, line 80, in create
-    dbapi = dialect_cls.dbapi(**dbapi_args)
-  File &#34;C:\Python36\lib\site-packages\sqlalchemy\dialects\mysql\mysqldb.py&#34;, line 110, in dbapi
-    return __import__(&#39;MySQLdb&#39;)
-ModuleNotFoundError: No module named &#39;MySQLdb&#39;
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">&#34;D:\workspace\SuitFlaskApp\suit\database.py&#34;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">12</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+    <span class="n">isolation_level</span><span class="o">=</span><span class="s2">&#34;READ_UNCOMMITTED&#34;</span>
+  <span class="n">File</span> <span class="s2">&#34;C:\Python36\lib\site-packages\sqlalchemy\engine\__init__.py&#34;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">387</span><span class="p">,</span> <span class="ow">in</span> <span class="n">create_engine</span>
+    <span class="k">return</span> <span class="n">strategy</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+  <span class="n">File</span> <span class="s2">&#34;C:\Python36\lib\site-packages\sqlalchemy\engine\strategies.py&#34;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">80</span><span class="p">,</span> <span class="ow">in</span> <span class="n">create</span>
+    <span class="n">dbapi</span> <span class="o">=</span> <span class="n">dialect_cls</span><span class="o">.</span><span class="n">dbapi</span><span class="p">(</span><span class="o">**</span><span class="n">dbapi_args</span><span class="p">)</span>
+  <span class="n">File</span> <span class="s2">&#34;C:\Python36\lib\site-packages\sqlalchemy\dialects\mysql\mysqldb.py&#34;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">110</span><span class="p">,</span> <span class="ow">in</span> <span class="n">dbapi</span>
+    <span class="k">return</span> <span class="nb">__import__</span><span class="p">(</span><span class="s1">&#39;MySQLdb&#39;</span><span class="p">)</span>
+<span class="n">ModuleNotFoundError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="s1">&#39;MySQLdb&#39;</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>에러가 나는 부분은</p>
@@ -365,10 +365,10 @@ ModuleNotFoundError: No module named &#39;MySQLdb&#39;
 <pre class="chroma"><code class="language-python" data-lang="python"><span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span>
     <span class="s2">&#34;mysql://test:test@localhost/test_database&#34;</span><span class="p">,</span>
     <span class="n">isolation_level</span><span class="o">=</span><span class="s2">&#34;READ_UNCOMMITTED&#34;</span>
-    <span class="p">)</span>
+<span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>MySQLdb 모듈이 없다고 한다. pip를 이용하여 설치하자</p>
+</div><p>MySQLdb 모듈이 없다고 합니다. pip를 이용하여 설치합시다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -388,9 +388,8 @@ ModuleNotFoundError: No module named &#39;MySQLdb&#39;
 No matching distribution found <span class="k">for</span> MySQLdb
 </code></pre></td></tr></table>
 </div>
-</div><p>심플하게 해결될 문제일 줄 알았으나 해당 모듈이없단다. 구글링해보니
-<a href="http://stackoverflow.com/questions/454854/no-module-named-mysqldb">http://stackoverflow.com/questions/454854/no-module-named-mysqldb</a>
-python 3.x 에는 MySQLdb가 없단다!. 현재 python3.6기반의 환경을 세팅한상태. 이럴수가.. 그런데 아래 mysqlclient를 이용하면 된다는 얘기가 있기에 시도해보았다.</p>
+</div><p>심플하게 해결될 문제일 줄 알았으나 해당 모듈이없다고 합니다. 구글링해보니 <a href="http://stackoverflow.com/questions/454854/no-module-named-mysqldb">http://stackoverflow.com/questions/454854/no-module-named-mysqldb</a> 에서
+python 3.x 에는 MySQLdb가 없다고 합니다. 저는 python3.6 기반의 환경을 세팅한 상태였습니다. mysqlclient를 이용하면 된다는 글이 있어 시도해 보았습니다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -399,19 +398,18 @@ python 3.x 에는 MySQLdb가 없단다!. 현재 python3.6기반의 환경을 세
 <pre class="chroma"><code class="language-bash" data-lang="bash">$ pip install mysqlclient
 </code></pre></td></tr></table>
 </div>
-</div><p>그후에 실행.. 역시 안된다. 다시 구글링해서 얻은 답변은</p>
+</div><p>그 후에 실행해보니 여전히 안됩니다. 다시 구글링.</p>
 <p><a href="http://stackoverflow.com/questions/41824551/mysqldb-with-python-3-6">http://stackoverflow.com/questions/41824551/mysqldb-with-python-3-6</a></p>
 <blockquote>
 <p>try to use sqlalchemy that is fully suported for many ODBC driver. Insted of using mysqldb, mysqlconnector is better in python3.x. I migrated a project from sqlite to mysql server and work fine in python3.6 sqlalchemy offer a solution for connecting with another ODBC.</p>
 </blockquote>
-<p>SQLalchemy는 많은 ODBC 드라이버를 지원하지만, MYSQLDB만 지원하지 않는단다. 좌절
-포기할수 없다. 조금더 찾아보자</p>
+<p>SQLalchemy는 많은 ODBC 드라이버를 지원하지만 MySQL만 지원하지 않는다고 합니다. 조금 더 찾아보았습니다.</p>
 <p><a href="http://stackoverflow.com/questions/27766794/switching-from-sqlite-to-mysql-with-flask-sqlalchemy">http://stackoverflow.com/questions/27766794/switching-from-sqlite-to-mysql-with-flask-sqlalchemy</a></p>
 <blockquote>
 <p>It happened to me that the default driver used by SQLAlchemy (mqsqldb), doesn&rsquo;t get compiled for me in my virtual environments. So I have opted for a MySQL driver with full python implementation pymysql. Once you install it using pip install pymysql, the SQLALCHEMY_DATABASE_URI will change to:
 app.config[&lsquo;SQLALCHEMY_DATABASE_URI&rsquo;] = &lsquo;mysql+pymysql://username:password@localhost/db_name&rsquo;</p>
 </blockquote>
-<p>pymysql을 이용하면 된다고한다. pymysql을 설치하고, 코드를 변경했다</p>
+<p>pymysql을 이용하면 된다고합니다. pymysql을 설치하고 이를 이용하도록 코드를 수정했습니다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -434,12 +432,12 @@ app.config[&lsquo;SQLALCHEMY_DATABASE_URI&rsquo;] = &lsquo;mysql+pymysql://usern
 <span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>실행했더니 잘 동작한다!</p>
+</div><p>실행 결과 잘 동작합니다.</p>
 <hr>
 <h3 id="sqlalchemy-with-pymysql-한글깨짐">Sqlalchemy with pymysql 한글깨짐</h3>
-<p>한글이 깨져 나올때는 utf8 인코딩 설정을 해줘야 한다.
-create_engine()을 호출할때 파라미터를 수정해주면 간단히 해결된다.</p>
-<p>아래처럼 dbhost 파라미터에 <em>charset=utf8</em>을 추가하자</p>
+<p>한글이 깨져 나올때는 utf8 인코딩 설정을 해줘야 합니다.</p>
+<p>create_engine()을 호출할때 파라미터를 수정해주면 간단히 해결됩니다.</p>
+<p>아래처럼 dbhost 파라미터에 <em>charset=utf8</em>을 추가합시다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -462,7 +460,7 @@ create_engine()을 호출할때 파라미터를 수정해주면 간단히 해결
 <li><a href="http://www.haruair.com/blog/1682" target="_blank" rel="noopener noreffer">SQLAlchemy 시작하기 – Part 1</a></li>
 <li><a href="http://www.haruair.com/blog/1695" target="_blank" rel="noopener noreffer">SQLAlchemy 시작하기 - Part 2</a></li>
 <li><a href="http://flask.pocoo.org/docs/0.12/patterns/sqlalchemy/" target="_blank" rel="noopener noreffer">SQLAlchemy in Flask</a></li>
-<li><a href="http://flask-docs-kr.readthedocs.io/ko/latest/ko/patterns/sqlalchemy.html" target="_blank" rel="noopener noreffer">Flask에서 SQLAlchemy 사용하기</a></li>
+<li><a href="http://flask-docs-kr.readthedocs.io/ko/latest/ko/patterns/sqlalchemy.html" target="_blank" rel="noopener noreffer">Flask에서 SQLAlchemy 사용하기</a>\</li>
 </ul>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
