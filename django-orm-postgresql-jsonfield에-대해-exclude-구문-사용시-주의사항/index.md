@@ -168,6 +168,23 @@ id |                    data
 - JSON Field의 특정 key 값에 대해서 "is null" 조건으로 조회하면 None, {}, key가 없는 것 세 가지가 다 조회가 됩니다.
 - JSON Field의 특정 key 값이 존재하는 row도 있고, 존재하지 않는 row도 있다면, 해당 key 값에 대해 "is null" 조건을 함께 사용해야 의도한 결과를 도출 할 수 있음을 알 수 있습니다.
 
+---
+
+## 기타 이슈 및 해결
+
+### ERROR: column "is_published" does not exist
+
+- 현상: queryset.query 결과를 그대로 psql에서 수행시켰을 때 해당 에러가 나왔습니다.
+- 해결: "myapp_book"."data" -> is_published에서 is_published를 single quote로 감싸서 query를 수행했더니 결과가 정상적으로 나왔습니다.
+
+```sql
+SELECT "id", "data" FROM "myapp_book" WHERE "myapp_book"."data" -> is_published != 'true'; # (X) ERROR:  column "is_published" does not exist
+SELECT "id", "data" FROM "myapp_book" WHERE "myapp_book"."data" -> "is_published" != 'true'; # (X) ERROR:  column "is_published" does not exist
+SELECT "id", "data" FROM "myapp_book" WHERE "myapp_book"."data" -> 'is_published' != 'true'; # (O) 정상 동작
+```
+
+---
+
 ## 맺으며
 - JSON Field에 대해 ORM 구문 작성 시 조회대상 Key 값 존재여부를 체크하는 습관을 들입시다. 
 - exclude보다는 filter를 사용합시다. exclude를 이용해서도 원하는 결과를 도출할 수 있지만, "NOT(A AND B)" 형태보다는 "A OR B" 형태가 훨씬 가독성이 높기 때문에 filter를 이용하는 편이 좋다고 생각합니다.
@@ -185,20 +202,5 @@ Book.objects.filter(Q(data__is_published=False) & Q(data__is_published__isnull=F
 Book.objects.exclude(data__is_published=True) # 예상과 다르 결과가 나옵니다.
 Book.objects.exclude(Q(data__is_published=True) & Q(data__is_published__isnull=False) # 예상한 결과가 나옵니다.
 Book.objects.filter(Q(data__is_published=False) | Q(data__is_published__isnull=True) # 예상한 결과가 나오며 가장 추천하는 방법입니다.
-```
-
----
-
-## 기타 이슈 및 해결
-
-### ERROR: column "is_published" does not exist
-
-- 현상: queryset.query 결과를 그대로 psql에서 수행시켰을 때 해당 에러가 나왔습니다.
-- 해결: "myapp_book"."data" -> is_published에서 is_published를 single quote로 감싸서 query를 수행했더니 결과가 정상적으로 나왔습니다.
-
-```sql
-SELECT "id", "data" FROM "myapp_book" WHERE "myapp_book"."data" -> is_published != 'true'; # (X) ERROR:  column "is_published" does not exist
-SELECT "id", "data" FROM "myapp_book" WHERE "myapp_book"."data" -> "is_published" != 'true'; # (X) ERROR:  column "is_published" does not exist
-SELECT "id", "data" FROM "myapp_book" WHERE "myapp_book"."data" -> 'is_published' != 'true'; # (O) 정상 동작
 ```
 

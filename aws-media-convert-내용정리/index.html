@@ -5,9 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-        <title>AWS Media Convert 내용 정리 - Ian Jang&#39;s IT Blog</title><meta name="Description" content="Ian Jang&#39;s IT Blog"><meta property="og:title" content="AWS Media Convert 내용 정리" />
-<meta property="og:description" content="들어가며 AWS Media Convert를 사용해 보면서 내용을 정리해 보았다.
-Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Demand 요금      fps&lt;=30 30&lt;fps&lt;=60 60&lt;fps&lt;=120     SD 0.0085 USD 0.0106 USD 0.0127 USD   HD 0.0170 USD 0.0212 USD 0.0255 USD   UHD 0.0340 USD 0.0425 USD 0.0510 USD      RTS(ReservedTranscodeSlots) 요금 12개월 약정: 500 USD" />
+        <title>AWS Media Convert 파해치기 - Ian Jang&#39;s IT Blog</title><meta name="Description" content="Ian Jang&#39;s IT Blog"><meta property="og:title" content="AWS Media Convert 파해치기" />
+<meta property="og:description" content="들어가며 효과적인 영상 압축을 위해 AWS Media Convert 서비스를 사용해 보았습니다. 막상 사용하려고 보니 온통 처음 보는 용어가 가득했습니다. 이런 용어들을 이해해야 제대로 기능을 활용할 수 있을 것 같았습니다. 본문에는 기본적인 AWS Media Convert 서비스에 대한 소개와 더불어 각종 영상 압축 관련 용어들을 조금은 두서없이 정리해 보았습니다.
+비용(Pricing)  Basic Plan / AVC 코덱 / 아시아 태평양(서울) 리전 / On-Demand 요금 기준      fps&lt;=30 30&lt;fps&lt;=60 60&lt;fps&lt;=120     SD 0." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" />
 <meta property="og:image" content="https://ianjang.github.io/logo.png"/>
@@ -16,9 +16,9 @@ Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Deman
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://ianjang.github.io/logo.png"/>
 
-<meta name="twitter:title" content="AWS Media Convert 내용 정리"/>
-<meta name="twitter:description" content="들어가며 AWS Media Convert를 사용해 보면서 내용을 정리해 보았다.
-Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Demand 요금      fps&lt;=30 30&lt;fps&lt;=60 60&lt;fps&lt;=120     SD 0.0085 USD 0.0106 USD 0.0127 USD   HD 0.0170 USD 0.0212 USD 0.0255 USD   UHD 0.0340 USD 0.0425 USD 0.0510 USD      RTS(ReservedTranscodeSlots) 요금 12개월 약정: 500 USD"/>
+<meta name="twitter:title" content="AWS Media Convert 파해치기"/>
+<meta name="twitter:description" content="들어가며 효과적인 영상 압축을 위해 AWS Media Convert 서비스를 사용해 보았습니다. 막상 사용하려고 보니 온통 처음 보는 용어가 가득했습니다. 이런 용어들을 이해해야 제대로 기능을 활용할 수 있을 것 같았습니다. 본문에는 기본적인 AWS Media Convert 서비스에 대한 소개와 더불어 각종 영상 압축 관련 용어들을 조금은 두서없이 정리해 보았습니다.
+비용(Pricing)  Basic Plan / AVC 코덱 / 아시아 태평양(서울) 리전 / On-Demand 요금 기준      fps&lt;=30 30&lt;fps&lt;=60 60&lt;fps&lt;=120     SD 0."/>
 <meta name="application-name" content="LoveIt">
 <meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -26,12 +26,12 @@ Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Deman
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "AWS Media Convert 내용 정리",
+        "headline": "AWS Media Convert 파해치기",
         "inLanguage": "en",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/ianjang.github.io\/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC\/"
-        },"genre": "posts","keywords": "AWS, MediaConvert","wordcount":  797 ,
+        },"genre": "posts","keywords": "AWS, MediaConvert","wordcount":  860 ,
         "url": "https:\/\/ianjang.github.io\/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC\/","datePublished": "2019-03-11T00:00:00+09:00","dateModified": "2019-03-11T00:00:00+09:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -106,10 +106,10 @@ Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Deman
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animated flipInX">AWS Media Convert 내용 정리</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animated flipInX">AWS Media Convert 파해치기</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>IanJang</a></span>&nbsp;<span class="post-category">included in <a href="/categories/aws/"><i class="far fa-folder fa-fw"></i>AWS</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-03-11">2019-03-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;797 words&nbsp;
-                <i class="far fa-clock fa-fw"></i>&nbsp;4 minutes&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-03-11">2019-03-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;860 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;5 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="true">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
@@ -118,7 +118,7 @@ Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Deman
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
     <li><a href="#들어가며">들어가며</a></li>
-    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#비용pricing">비용(Pricing)</a></li>
     <li><a href="#output-groups">Output Groups</a>
       <ul>
         <li><a href="#apple-hls-group-setting">Apple HLS Group Setting</a></li>
@@ -133,19 +133,10 @@ Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Deman
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="들어가며">들어가며</h2>
-<p>AWS Media Convert를 사용해 보면서 내용을 정리해 보았다.</p>
-<h2 id="pricing">Pricing</h2>
+<p>효과적인 영상 압축을 위해 AWS Media Convert 서비스를 사용해 보았습니다. 막상 사용하려고 보니 온통 처음 보는 용어가 가득했습니다. 이런 용어들을 이해해야 제대로 기능을 활용할 수 있을 것 같았습니다. 본문에는 기본적인 AWS Media Convert 서비스에 대한 소개와 더불어 각종 영상 압축 관련 용어들을 조금은 두서없이 정리해 보았습니다.</p>
+<h2 id="비용pricing">비용(Pricing)</h2>
 <ul>
-<li>기준:
-<ul>
-<li>Basic Plan</li>
-<li>AVC 코덱</li>
-<li>아시아 태평양(서울)</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>On-Demand 요금</li>
+<li>Basic Plan / AVC 코덱 / 아시아 태평양(서울) 리전 / On-Demand 요금 기준</li>
 </ul>
 <table>
 <thead>
@@ -189,7 +180,7 @@ Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Deman
 </ul>
 </li>
 <li>
-<p>베이직 티어와 프로페셔널 티어의 해상도는 아래와 같이 정의됨</p>
+<p>베이직 티어와 프로페셔널 티어의 해상도는 아래와 같이 정의됩니다.</p>
 <ul>
 <li>SD: 수직해상도가 720 미만인 출력
 <ul>
@@ -211,12 +202,15 @@ Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Deman
 </ul>
 </li>
 <li>
-<p>비용 계산</p>
+<p>비용 절감 방안</p>
 <ul>
-<li>720p($0.0212/min) * 23,585 Minutes ≒ $500</li>
-<li>23,585 Minutes ≒ 393 Hours</li>
-<li>월 393시간 미만의 영상을 인코딩 한다면, On-Demand</li>
-<li>그 이상이라면 RTS를 1개 이상 두고, 초과 시 1개 더 늘리는 식..</li>
+<li>RDS를 활용합시다.</li>
+<li>온 디멘드 요금 기준 393 시간 사용시 약 $500의 비용이 듦니다.
+<ul>
+<li>720p(0.0212 USD/분) x 23,585분(393시간) -&gt; 약 500 USD</li>
+</ul>
+</li>
+<li>월 393시간 미만의 영상을 인코딩 한다면 온 디멘드 요금제를 사용하고 그 이상 사용한다면 RTS를 두고 사용하면 비용 측면에서 유리합니다.</li>
 </ul>
 </li>
 <li>
@@ -231,31 +225,29 @@ Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Deman
 <h2 id="output-groups">Output Groups</h2>
 <h3 id="apple-hls-group-setting">Apple HLS Group Setting</h3>
 <ul>
-<li>
-<p>Segment</p>
+<li>Segment
 <ul>
 <li>Segment control
 <ul>
 <li>Segmented files: 기본</li>
-<li>Single File: 하나의 Segment만 생성
+<li>Single File: 하나의 Segment만 생성합니다.
 <ul>
-<li>segment를 나눈 것과 성능상의 큰 차이는 없음</li>
-<li>master manifest 파일에는 ts 정보가 아닌 byte 정보가 담김</li>
+<li>segment를 나눈 것과 성능상의 큰 차이는 없습니다.</li>
+<li>master manifest 파일에는 ts 정보가 아닌 byte 정보가 담깁니다.</li>
 </ul>
 </li>
 </ul>
 </li>
 <li>Segment length(sec)
 <ul>
-<li>live 는 보통 2초</li>
-<li>Segment가 길수록 파일사이즈가 커지고, 최초 ts 다운로드 시 오래걸림</li>
+<li>live는 보통 2초로 세팅하면 됩니다.</li>
+<li>Segment가 길수록 파일 사이즈가 커지고, 최초 ts 다운로드 시 오래 걸리게 됩니다.</li>
 </ul>
 </li>
-<li>VOD는 굳이 자를 필요는 없음 (추천: 4초이상 안쓰는게 좋음)</li>
+<li>VOD는 굳이 자를 필요는 없습니다. (추천: 4초 이상 안 쓰는 게 좋습니다.)</li>
 </ul>
 </li>
-<li>
-<p>Codec specification</p>
+<li>Codec specification
 <ul>
 <li><a href="https://www.rfc-editor.org/rfc/rfc4281.txt" target="_blank" rel="noopener noreffer">RFC4281(default)</a></li>
 <li><a href="https://www.rfc-editor.org/rfc/rfc6281.txt" target="_blank" rel="noopener noreffer">RFC6381</a></li>
@@ -271,12 +263,8 @@ Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Deman
 </li>
 <li>Add I-Frame only manifest
 <ul>
-<li>이용시, 플레이어의 비디오 미리 보기에서 콘텐츠 스크러빙을 더 쉽게 지원할 수 있음</li>
-<li>Reference
-<ul>
-<li><a href="https://aws.amazon.com/ko/about-aws/whats-new/2019/01/aws-elemental-medialive-add-i-frame-only-hls-manifest-and-jpeg-outputs/" target="_blank" rel="noopener noreffer">[AWS Document] AWS Elemental MediaLive, I-프레임 전용 HLS 매니페스트 및 JPEG 출력 기능 추가</a></li>
-</ul>
-</li>
+<li>사용하면 플레이어의 비디오 미리 보기에서 콘텐츠 스크러빙을 더 쉽게 지원할 수 있습니다.</li>
+<li>Reference: <a href="https://aws.amazon.com/ko/about-aws/whats-new/2019/01/aws-elemental-medialive-add-i-frame-only-hls-manifest-and-jpeg-outputs/" target="_blank" rel="noopener noreffer">[AWS Document] AWS Elemental MediaLive, I-프레임 전용 HLS 매니페스트 및 JPEG 출력 기능 추가</a></li>
 </ul>
 </li>
 </ul>
@@ -299,7 +287,7 @@ Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Deman
 </li>
 <li>Framerate
 <ul>
-<li>기본적으로 소스를 따르게 설정</li>
+<li>기본적으로 소스를 따르게 설정 합니다.</li>
 </ul>
 </li>
 <li>Video Mode
@@ -307,11 +295,12 @@ Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Deman
 <li>Rate control mode
 <ul>
 <li>CBR: 비트레이트가 일정</li>
-<li>VBR: 정해진 값에서 올라갔다 내려갔다</li>
+<li>VBR: 정해진 값에서 비트레이트가 오르락 내리락</li>
 <li>QVBR: 쉬운영상이 나오면 낮은 비트레이트 어려운 영상이 나오면 높은 비트레이트</li>
 </ul>
 </li>
 <li>Quality tuning Level / Max bitrate(bits/s) / QVBR Quality level</li>
+<li>Reference: <a href="https://docs.aws.amazon.com/ko_kr/mediaconvert/latest/ug/cbr-vbr-qvbr.html" target="_blank" rel="noopener noreffer">[AWS Document] QVBR 속도 제어 모드 사용</a></li>
 </ul>
 </li>
 </ul>
@@ -371,63 +360,45 @@ Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Deman
 </tbody>
 </table>
 <ul>
-<li>
-<p>Reference</p>
+<li>HRD Buffer</li>
+<li>GOP(Group of Pictures)
 <ul>
-<li><a href="https://docs.aws.amazon.com/ko_kr/mediaconvert/latest/ug/cbr-vbr-qvbr.html" target="_blank" rel="noopener noreffer">[AWS Document] QVBR 속도 제어 모드 사용</a></li>
-</ul>
-</li>
-<li>
-<p>HRD Buffer</p>
-</li>
-<li>
-<p>GOP(Group of Pictures)</p>
-<ul>
-<li>I frame의 간격을 말함</li>
+<li>I frame의 간격을 말합니다.</li>
 <li>B frame 2개일 경우: IBBPBBPBBPBBPBBPBBPBBP&hellip;I</li>
 <li>I: Key frame / B: 예측 frame / P: 참조 frame</li>
-<li>I frame이 용량이 제일 큼 / B프레임이 용량이 제일 작음</li>
-<li>쉬운 영상(역동적이지 않은)일수록 B frame을 많이 쓰는 것이 유리</li>
-<li>낮은 대역폭에 대해서는 B frame을 많이 쓰는 것이 유리</li>
-</ul>
-<blockquote>
-<p>애니메이션은 Easy한 소스, bitrate를 낮춰도 크게 영상에 문제가 생기거나 하지 않음.
-720p라면 일반적으로 2Mbps쓰지만 1.5Mbps로도 충분하고, QVBR Target 7 쓰면 CDN비용 40%이상 Save 할것으로 예상. GOP size는 60 / B frames between reference frames는 2~3 정도 쓰는것이 좋다.</p>
-</blockquote>
-<ul>
-<li>Reference
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Video_compression_picture_types#Bi-directional_predicted_frames.2Fslices_.28B-frames.2Fslices.29" target="_blank" rel="noopener noreffer">[위키피디아]IPB Frame - Video compression picture types</a></li>
+<li>I frame이 용량이 제일 크고 B프레임이 용량이 제일 작습니다.</li>
+<li>쉬운 영상(역동적이지 않은)일수록 B frame을 많이 쓰는 것이 유리합니다.</li>
+<li>낮은 대역폭에 대해서는 B frame을 많이 쓰는 것이 유리합니다.</li>
+<li>애니메이션은 Easy한 소스여서 bitrate를 낮춰도 크게 영상에 문제가 생기거나 하지 않습니다.</li>
+<li>720p라면 일반적으로 2Mbps를 쓰지만 1.5Mbps로도 충분하고, QVBR Target 7 쓰면 CDN비용 40%이상 Save 할것으로 예상합니다.</li>
+<li>GOP size는 60, B frames between reference frames는 2~3 정도 쓰는것이 좋습니다.</li>
+<li>Reference: <a href="https://en.wikipedia.org/wiki/Video_compression_picture_types#Bi-directional_predicted_frames.2Fslices_.28B-frames.2Fslices.29" target="_blank" rel="noopener noreffer">[위키피디아]IPB Frame - Video compression picture types</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li>
-<p>Scene Change Detection</p>
+<li>Scene Change Detection
 <ul>
-<li>I프레임을 중간에 삽입해줌</li>
+<li>I프레임을 중간에 삽입해줍니다.</li>
 </ul>
 </li>
-<li>
-<p>Profile</p>
+<li>Profile
 <ul>
 <li>BaseLine(CBP/BP)
 <ul>
-<li>저비용 어플리케이션(영상회의/모바일 어플리케이션 등)</li>
-<li>영상손실, 인코더 기능을 특정 Basic한 것만으로 제한하는 방식</li>
-<li>양방향 예측(B-Frame) 지원X</li>
+<li>저비용 어플리케이션(영상회의/모바일 어플리케이션 등)에 사용합니다.</li>
+<li>영상손실, 인코더 기능을 특정 Basic한 것만으로 제한하는 방식입니다.</li>
+<li>양방향 예측(B-Frame)은 지원하지 않습니다.</li>
 </ul>
 </li>
 <li>Main(MP)
 <ul>
 <li>디지털 TV 방송 표준</li>
-<li>양방향 예측(B-Frame) 지원</li>
+<li>양방향 예측(B-Frame)을 지원합니다.</li>
 </ul>
 </li>
 <li>High(HiP)
 <ul>
-<li>고해상도 TV어플리케이션ㅡ Bluray Disc, DVB HDTV 방송 서비스</li>
-<li>양방향 예측(B-Frame) 지원</li>
+<li>고해상도 TV어플리케이션 Bluray Disc, DVB HDTV 방송 서비스에 사용합니다.</li>
+<li>양방향 예측(B-Frame)을 지원합니다.</li>
 </ul>
 </li>
 <li>Reference
@@ -438,32 +409,26 @@ Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Deman
 </li>
 </ul>
 </li>
-<li>
-<p>Level</p>
+<li>Level
 <ul>
 <li>비트율, 프레임율, 화면해상도</li>
-<li>서비스하려는 단말기 중에서 가장 낮은 레벨이 무엇인지 확인해야 한다.</li>
+<li>서비스하려는 단말기 중에서 가장 낮은 레벨이 무엇인지 확인해야 합니다.</li>
 </ul>
 </li>
-<li>
-<p>Entropy Encoding</p>
+<li>Entropy Encoding
 <ul>
-<li>비디오 재생시에 CAVLC과 CABAC의 성능 차이는 없는 반면에 화면의 질은 CABAC이 낫다.</li>
-<li>CABAC: 상황 적응 이진 산술 코딩. 기본 확률 모델에 대한 고효율 자동 조정을 제공. 산술코더, 가장 높은 압축 효율 비율. CAVLC보다 많은 하드웨어 리소스가 필요</li>
-<li>CAVLC: 상황 적응 가변 길이 코딩. 호프만과 같은 압축 알고리즘 사용. 적절 품질, 빠른 데이터 압축</li>
-<li>Reference
-<ul>
-<li><a href="http://www.rumpus.co.kr/04.Technology/TransCoderTab04.asp" target="_blank" rel="noopener noreffer">http://www.rumpus.co.kr/04.Technology/TransCoderTab04.asp</a></li>
+<li>비디오 재생시에 CAVLC과 CABAC의 성능 차이는 거의 없는 반면에 화면의 질은 CABAC이 낫습니다.</li>
+<li>CABAC: 상황 적응 이진 산술 코딩. 기본 확률 모델에 대한 고효율 자동 조정을 제공합니다. 산술코더, 가장 높은 압축 효율 비율. CAVLC보다 많은 하드웨어 리소스가 필요합니다.</li>
+<li>CAVLC: 상황 적응 가변 길이 코딩. 호프만과 같은 압축 알고리즘 사용합니다. 적절한 품질. 빠른 데이터 압축</li>
+<li>Reference: <a href="http://www.rumpus.co.kr/04.Technology/TransCoderTab04.asp" target="_blank" rel="noopener noreffer">http://www.rumpus.co.kr/04.Technology/TransCoderTab04.asp</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li>
-<p>Slice</p>
+<li>Slice
 <ul>
-<li>화면을 독립적으로 분할하여 인코딩 가능</li>
-<li>여러 CPU를 동시에 사용할 수 있다.</li>
-<li>각 슬라이스 간의 중복되는 부분을 알 수 없음. 인코딩 품질이 떨어질 수 있다</li>
+<li>화면을 독립적으로 분할하여 인코딩 가능합니다.</li>
+<li>여러 CPU를 동시에 사용할 수 있습니다.</li>
+<li>각 슬라이스 간의 중복되는 부분을 알 수 없습니다</li>
+<li>인코딩 품질이 떨어질 수 있습니다.</li>
 </ul>
 </li>
 </ul>
@@ -473,16 +438,12 @@ Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Deman
 <ul>
 <li>HE-AAC: 디지털 오디오에서 쓰이는 손실 데이터 압축 방식
 <ul>
-<li>LC: 복잡성이 낮고, 스트리밍 오디오와 같은 낮은 비트레이트 애플리케이션에 최적화됨</li>
-<li>HEV1: 스펙트럼 대역 복제(Spectral band replication, SBR)를 사용하여 주파수 영역(frequency domain)에서 압축 효율을 향상시킨다.</li>
-<li>HEV2: 스펙트럼 대역 복제와 파라메트릭 스테레오(PS)가 한 쌍을 이루어 스테레오 신호의 압축 효율을 향상시킨다. 박수와 같은 압축하기 어렵다고 알려진 음원에서는 음질의 열화가 발생한다고 알려져 있다.</li>
+<li>LC: 복잡성이 낮고, 스트리밍 오디오와 같은 낮은 비트레이트 애플리케이션에 최적화됩니다.</li>
+<li>HEV1: 스펙트럼 대역 복제(Spectral band replication, SBR)를 사용하여 주파수 영역(frequency domain)에서 압축 효율이 향상됩니다.</li>
+<li>HEV2: 스펙트럼 대역 복제와 파라메트릭 스테레오(PS)가 한 쌍을 이루어 스테레오 신호의 압축 효율이 향상됩니다. 박수와 같은 압축하기 어렵다고 알려진 음원에서는 음질의 열화가 발생한다고 알려져 있습니다.</li>
 </ul>
 </li>
-<li>Reference
-<ul>
-<li><a href="https://ko.wikipedia.org/wiki/HE-AAC" target="_blank" rel="noopener noreffer">[위키피디아]HE-AAC</a></li>
-</ul>
-</li>
+<li>Reference: <a href="https://ko.wikipedia.org/wiki/HE-AAC" target="_blank" rel="noopener noreffer">[위키피디아]HE-AAC</a></li>
 </ul>
 </li>
 <li>Bitrate control mode
@@ -497,29 +458,30 @@ Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Deman
 <ul>
 <li>MediaStore
 <ul>
-<li>심플하게 라이브 스트리밍 구성할 경우 사용</li>
+<li>심플하게 라이브 스트리밍을 구성할 경우 사용합니다.</li>
 </ul>
 </li>
 <li>MediaPackage
 <ul>
-<li>보다 복잡한 구성시 사용</li>
+<li>보다 복잡한 구성시 사용합니다.</li>
 </ul>
 </li>
 <li>S3
 <ul>
 <li>VOD 용</li>
-<li>Live용으로는 사용 불가능 / MetaData 업데이트가 안되서</li>
+<li>MetaData 업데이트가 안되서 Live용으로는 사용 불가능 합니다.</li>
 </ul>
 </li>
 </ul>
 <h2 id="cdn">CDN</h2>
 <ul>
-<li>Data Size -&gt; 비용과 연결됨</li>
+<li>Data Size가 비용과 연결됩니다.</li>
 <li>Profile Ordering
 <ul>
-<li>대부분 낮은것 부터 올라가도록 세팅함</li>
-<li>다만, 충분히 네트웍 속도가 빠른 상태에서는 굳이 내려받지 않아도되는 해상도의 세그먼트 까지 다운받게 되어, 비용 낭비가 생김</li>
-<li>추천사항은 720p &gt; 480p &gt; 1080p 와 같이 적당히 중간것 부터 제공하도록</li>
+<li>프로파일 제공 순서입니다.</li>
+<li>대부분 낮은 것부터 올라가도록 세팅합니다.</li>
+<li>다만, 충분히 네트워크 속도가 빠른 상태에서는 굳이 내려받지 않아도 되는 해상도의 세그먼트까지 다운받게 되어, 비용 낭비가 생깁니다.</li>
+<li>추천사항은 720p &gt; 480p &gt; 1080p와 같이 적당히 중간 것부터 제공하도록 세팅하는 것입니다.</li>
 </ul>
 </li>
 </ul>
@@ -529,30 +491,26 @@ Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Deman
 <li>
 <p>OTT(Over The Top)</p>
 <ul>
-<li>인터넷을 통해서 미디어 서비스를 받을 수 있는 모든 Device</li>
+<li>인터넷을 통해서 미디어 서비스를 받을 수 있는 모든 Device를 말합니다.</li>
 </ul>
 </li>
 <li>
 <p>HLS</p>
 <ul>
-<li>전세게적으로 90% 정도 사용</li>
-<li>향후에는 대부분 CMAF로 갈거임 (HLS + DASH)</li>
+<li>전세게적으로 90% 정도 사용 합니다.</li>
 <li>애플에서 만든 Adaptive Bitrate Streaming</li>
-<li>Master Manifest(index.m3u8)  &gt; 사용자별로 다르게 구성할 수 있음..
+<li>Master Manifest(index.m3u8) -&gt; 사용자별로 다르게 구성할 수 있습니다.
 <ul>
 <li>Child Manifest(index_720p.m3u8)</li>
 <li>Child Manifest(index_480p.m3u8)</li>
 <li>Child Manifest(index_360p.m3u8)</li>
 </ul>
 </li>
-<li>Live 용 HLS 컨버팅시 파일 생성순서 TS &gt; Child manifest &gt; Master Manifest</li>
+<li>Live 용 HLS 컨버팅시 파일 생성순서 TS -&gt; Child manifest -&gt; Master Manifest</li>
 </ul>
 </li>
 <li>
-<p>Reference</p>
-<ul>
-<li><a href="https://unipro.tistory.com/101" target="_blank" rel="noopener noreffer">[Tistory]개똥이야기-H.264소개</a></li>
-</ul>
+<p>Reference: <a href="https://unipro.tistory.com/101" target="_blank" rel="noopener noreffer">[Tistory]개똥이야기-H.264소개</a></p>
 </li>
 </ul>
 </div><div class="post-footer" id="post-footer">
@@ -568,7 +526,7 @@ Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Deman
                             <a class="link-to-markdown" href="/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/index.md" target="_blank">Read Markdown</a>
                         </span></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" data-title="AWS Media Convert 내용 정리" data-hashtags="AWS,MediaConvert"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" data-hashtag="AWS"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" data-title="AWS Media Convert 내용 정리" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" data-title="AWS Media Convert 내용 정리"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" data-title="AWS Media Convert 내용 정리"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="Share on Myspace" data-sharer="myspace" data-url="https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" data-title="AWS Media Convert 내용 정리" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="Share on Blogger" data-sharer="blogger" data-url="https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" data-title="AWS Media Convert 내용 정리" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" data-title="AWS Media Convert 내용 정리"><i class="fab fa-evernote fa-fw"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" data-title="AWS Media Convert 파해치기" data-hashtags="AWS,MediaConvert"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" data-hashtag="AWS"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" data-title="AWS Media Convert 파해치기" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" data-title="AWS Media Convert 파해치기"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" data-title="AWS Media Convert 파해치기"><i class="fab fa-weibo fa-fw"></i></a><a href="javascript:void(0);" title="Share on Myspace" data-sharer="myspace" data-url="https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" data-title="AWS Media Convert 파해치기" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="Share on Blogger" data-sharer="blogger" data-url="https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" data-title="AWS Media Convert 파해치기" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/" data-title="AWS Media Convert 파해치기"><i class="fab fa-evernote fa-fw"></i></a></span>
             </div>
         </div>
     </div>

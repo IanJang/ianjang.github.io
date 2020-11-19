@@ -5,12 +5,12 @@
         <description>MediaConvert - Tag - Ian Jang&#39;s IT Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ianjang0718@gmail.com (IanJang)</managingEditor>
             <webMaster>ianjang0718@gmail.com (IanJang)</webMaster><lastBuildDate>Mon, 11 Mar 2019 00:00:00 &#43;0900</lastBuildDate><atom:link href="https://ianjang.github.io/tags/mediaconvert/" rel="self" type="application/rss+xml" /><item>
-    <title>AWS Media Convert 내용 정리</title>
+    <title>AWS Media Convert 파해치기</title>
     <link>https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/</link>
     <pubDate>Mon, 11 Mar 2019 00:00:00 &#43;0900</pubDate>
     <author>Author</author>
     <guid>https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/</guid>
-    <description><![CDATA[들어가며 AWS Media Convert를 사용해 보면서 내용을 정리해 보았다.
-Pricing  기준:  Basic Plan AVC 코덱 아시아 태평양(서울)     On-Demand 요금      fps&lt;=30 30&lt;fps&lt;=60 60&lt;fps&lt;=120     SD 0.0085 USD 0.0106 USD 0.0127 USD   HD 0.0170 USD 0.0212 USD 0.0255 USD   UHD 0.0340 USD 0.0425 USD 0.0510 USD      RTS(ReservedTranscodeSlots) 요금 12개월 약정: 500 USD]]></description>
+    <description><![CDATA[들어가며 효과적인 영상 압축을 위해 AWS Media Convert 서비스를 사용해 보았습니다. 막상 사용하려고 보니 온통 처음 보는 용어가 가득했습니다. 이런 용어들을 이해해야 제대로 기능을 활용할 수 있을 것 같았습니다. 본문에는 기본적인 AWS Media Convert 서비스에 대한 소개와 더불어 각종 영상 압축 관련 용어들을 조금은 두서없이 정리해 보았습니다.
+비용(Pricing)  Basic Plan / AVC 코덱 / 아시아 태평양(서울) 리전 / On-Demand 요금 기준      fps&lt;=30 30&lt;fps&lt;=60 60&lt;fps&lt;=120     SD 0.]]></description>
 </item></channel>
 </rss>

@@ -3,7 +3,7 @@
 
 ## 들어가며
 
-특정 경로에 파일(로그, 이미지등)이 누적해서 쌓인다면, 언젠가는 디스크 용량을 가득 채울 수 있다. 이 경우, 특정기간이 지난 파일을 지워주거나, 압축하여 별도 저장소로 옮긴다거나 하는 과정이 필요하다. 스크립트를 작성하고 crontab에 등록하여 이러한 과정을 자동화 할 수 있다.
+  서버 애플리케이션이 특정 경로에 파일(로그, 이미지 등)을 쌓는 구조로 되어 있다면 언젠가 용량이 가득 차는 문제를 맞이할 수 있습니다. 이를 예방하기 위해선 특정 기간이 지난 파일을 지우거나, 압축하여 별도 저장소로 옮긴다거나 하는 과정이 필요합니다. 간단한 shell 스크립트를 작성하고 crontab에 등록하여 이러한 과정을 자동화 할 수 있습니다.
 
 ---
 
@@ -22,47 +22,9 @@ $ cat /var/log/syslog | grep CRON
 
 ---
 
-## Crontab default editor 변경
+## 오래된 파일을 제거하는 스크립트 작성하기
 
-contab -e 명령 수행시 nano editor로 설정파일이 열려 당황했다.
-이 때 아래와 같이 해결했다.
-
-```bash
-# 기본 에디터를 고르는 명령어 수행
-$ select-editor
-
-# nano로 셋팅된것을, vim으로 변경
-Select an editor.  To change later, run 'select-editor'.
-  1. /bin/ed
-  2. /bin/nano        <---- easiest
-  3. /usr/bin/vim.basic
-  4. /usr/bin/vim.tiny
-
-Choose 1-4 [2]: 3
-```
-
-- Reference
-    - [http://www.42.mach7x.com/2017/02/01/changing-default-editor-for-crontab-from-vi-to-vim/](http://www.42.mach7x.com/2017/02/01/changing-default-editor-for-crontab-from-vi-to-vim/)
-
----
-
-## sudo command 수행을 crontab에 걸고 싶을 때
-
-root 계정의 crontab을 수정하면 된다.
-참고로 sudo를 빼면 현재 로그인된 계정에 대한 crontab이 수정된다.
-
-```bash
-$ sudo crontab -e
-```
-
-- Reference
-    - [https://askubuntu.com/questions/173924/how-to-run-a-cron-job-using-the-sudo-command](https://askubuntu.com/questions/173924/how-to-run-a-cron-job-using-the-sudo-command)
-
----
-
-## 오래된 파일 제거 Script
-
-아래 명령어들을 잘 활용하면 된다.
+  아래 정리된 명령어를 참고합시다.
 
 ```bash
 # * 수정한지 90일 이상 된 파일과 디렉토리 조회
@@ -76,7 +38,7 @@ $ find . -mtime +90 -type f -ls
 $ sudo find . -mtime +90 -type f -ls -exec rm -f {} \\;
 ```
 
-직접 완성한 스크립트이다. 기간은 days 변수를 두어 수정이 편하게 하였다.
+  아래는 직접 완성한 스크립트입니다.
 
 ```bash
 # remove_old_files.sh
@@ -92,14 +54,51 @@ sudo find ${path} -mtime +${days} -type f -ls -exec rm -f {} \\;
 
 ---
 
-## 직접 완성한 Crontab 예시
+## Crontab에 작업 등록하기
 
-UTC기준 매 15시 1분에 수행되도록 하였고, 수행시 로그를 남기도록 하였다.
+  작성한 스크립트를 UTC기준 매일 15시 1분(KST기준 00시 1분)에 수행되도록 하였습니다.
 
-```
+```bash
+$ crontab -e
+
+# 아래 내용 입력 
 1 15 * * * /home/ubuntu/myscripts/remove_old_files.sh >> /home/ubuntu/myscripts/remove_old_files.sh.log 2>&1
 ```
 
-- Reference
-	- [https://jdm.kr/blog/2](https://jdm.kr/blog/2)
+- Reference: [https://jdm.kr/blog/2](https://jdm.kr/blog/2)
+
+---
+
+## 이슈 및 해결
+### Crontab default editor 변경
+
+  contab -e 명령 수행 시 nano editor가 열러 작업하기 불편하다면 아래 방법으로 에디터를 수정 할 수 있습니다.
+
+```bash
+# 기본 에디터를 고르는 명령어 수행
+$ select-editor
+
+# nano로 셋팅된것을, vim으로 변경
+Select an editor.  To change later, run 'select-editor'.
+  1. /bin/ed
+  2. /bin/nano        <---- easiest
+  3. /usr/bin/vim.basic
+  4. /usr/bin/vim.tiny
+
+Choose 1-4 [2]: 3
+```
+
+- Reference: [http://www.42.mach7x.com/2017/02/01/changing-default-editor-for-crontab-from-vi-to-vim/](http://www.42.mach7x.com/2017/02/01/changing-default-editor-for-crontab-from-vi-to-vim/)
+
+---
+
+### root 권한으로 crontab 작업을 등록하고 싶을 때
+
+  아래 명령을 이용하면 됩니다. 참고로 명령어에서 sudo를 빼면 현재 로그인된 계정에 대한 crontab 설정파일을 수정할 수 있습니다.
+
+```bash
+$ sudo crontab -e
+```
+
+- Reference: [https://askubuntu.com/questions/173924/how-to-run-a-cron-job-using-the-sudo-command](https://askubuntu.com/questions/173924/how-to-run-a-cron-job-using-the-sudo-command)
 

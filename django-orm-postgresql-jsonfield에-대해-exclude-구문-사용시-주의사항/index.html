@@ -131,12 +131,12 @@
         <li><a href="#db-query-수행-결과-확인">DB Query 수행 결과 확인</a></li>
       </ul>
     </li>
-    <li><a href="#맺으며">맺으며</a></li>
     <li><a href="#기타-이슈-및-해결">기타 이슈 및 해결</a>
       <ul>
         <li><a href="#error-column-is_published-does-not-exist">ERROR: column &ldquo;is_published&rdquo; does not exist</a></li>
       </ul>
     </li>
+    <li><a href="#맺으며">맺으며</a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="들어가며">들어가며</h2>
@@ -397,6 +397,26 @@
 <li>JSON Field의 특정 key 값에 대해서 &ldquo;is null&rdquo; 조건으로 조회하면 None, {}, key가 없는 것 세 가지가 다 조회가 됩니다.</li>
 <li>JSON Field의 특정 key 값이 존재하는 row도 있고, 존재하지 않는 row도 있다면, 해당 key 값에 대해 &ldquo;is null&rdquo; 조건을 함께 사용해야 의도한 결과를 도출 할 수 있음을 알 수 있습니다.</li>
 </ul>
+<hr>
+<h2 id="기타-이슈-및-해결">기타 이슈 및 해결</h2>
+<h3 id="error-column-is_published-does-not-exist">ERROR: column &ldquo;is_published&rdquo; does not exist</h3>
+<ul>
+<li>현상: queryset.query 결과를 그대로 psql에서 수행시켰을 때 해당 에러가 나왔습니다.</li>
+<li>해결: &ldquo;myapp_book&rdquo;.&ldquo;data&rdquo; -&gt; is_published에서 is_published를 single quote로 감싸서 query를 수행했더니 결과가 정상적으로 나왔습니다.</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="s2">&#34;id&#34;</span><span class="p">,</span> <span class="s2">&#34;data&#34;</span> <span class="k">FROM</span> <span class="s2">&#34;myapp_book&#34;</span> <span class="k">WHERE</span> <span class="s2">&#34;myapp_book&#34;</span><span class="p">.</span><span class="s2">&#34;data&#34;</span> <span class="o">-&gt;</span> <span class="n">is_published</span> <span class="o">!=</span> <span class="s1">&#39;true&#39;</span><span class="p">;</span> <span class="o">#</span> <span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="n">ERROR</span><span class="p">:</span>  <span class="k">column</span> <span class="s2">&#34;is_published&#34;</span> <span class="n">does</span> <span class="k">not</span> <span class="n">exist</span>
+<span class="k">SELECT</span> <span class="s2">&#34;id&#34;</span><span class="p">,</span> <span class="s2">&#34;data&#34;</span> <span class="k">FROM</span> <span class="s2">&#34;myapp_book&#34;</span> <span class="k">WHERE</span> <span class="s2">&#34;myapp_book&#34;</span><span class="p">.</span><span class="s2">&#34;data&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;is_published&#34;</span> <span class="o">!=</span> <span class="s1">&#39;true&#39;</span><span class="p">;</span> <span class="o">#</span> <span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="n">ERROR</span><span class="p">:</span>  <span class="k">column</span> <span class="s2">&#34;is_published&#34;</span> <span class="n">does</span> <span class="k">not</span> <span class="n">exist</span>
+<span class="k">SELECT</span> <span class="s2">&#34;id&#34;</span><span class="p">,</span> <span class="s2">&#34;data&#34;</span> <span class="k">FROM</span> <span class="s2">&#34;myapp_book&#34;</span> <span class="k">WHERE</span> <span class="s2">&#34;myapp_book&#34;</span><span class="p">.</span><span class="s2">&#34;data&#34;</span> <span class="o">-&gt;</span> <span class="s1">&#39;is_published&#39;</span> <span class="o">!=</span> <span class="s1">&#39;true&#39;</span><span class="p">;</span> <span class="o">#</span> <span class="p">(</span><span class="n">O</span><span class="p">)</span> <span class="err">정상</span> <span class="err">동작</span>
+</code></pre></td></tr></table>
+</div>
+</div><hr>
 <h2 id="맺으며">맺으며</h2>
 <ul>
 <li>JSON Field에 대해 ORM 구문 작성 시 조회대상 Key 값 존재여부를 체크하는 습관을 들입시다.</li>
@@ -430,25 +450,6 @@
 <span class="n">Book</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">data__is_published</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c1"># 예상과 다르 결과가 나옵니다.</span>
 <span class="n">Book</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">Q</span><span class="p">(</span><span class="n">data__is_published</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">Q</span><span class="p">(</span><span class="n">data__is_published__isnull</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># 예상한 결과가 나옵니다.</span>
 <span class="n">Book</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">Q</span><span class="p">(</span><span class="n">data__is_published</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="o">|</span> <span class="n">Q</span><span class="p">(</span><span class="n">data__is_published__isnull</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c1"># 예상한 결과가 나오며 가장 추천하는 방법입니다.</span>
-</code></pre></td></tr></table>
-</div>
-</div><hr>
-<h2 id="기타-이슈-및-해결">기타 이슈 및 해결</h2>
-<h3 id="error-column-is_published-does-not-exist">ERROR: column &ldquo;is_published&rdquo; does not exist</h3>
-<ul>
-<li>현상: queryset.query 결과를 그대로 psql에서 수행시켰을 때 해당 에러가 나왔습니다.</li>
-<li>해결: &ldquo;myapp_book&rdquo;.&ldquo;data&rdquo; -&gt; is_published에서 is_published를 single quote로 감싸서 query를 수행했더니 결과가 정상적으로 나왔습니다.</li>
-</ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="s2">&#34;id&#34;</span><span class="p">,</span> <span class="s2">&#34;data&#34;</span> <span class="k">FROM</span> <span class="s2">&#34;myapp_book&#34;</span> <span class="k">WHERE</span> <span class="s2">&#34;myapp_book&#34;</span><span class="p">.</span><span class="s2">&#34;data&#34;</span> <span class="o">-&gt;</span> <span class="n">is_published</span> <span class="o">!=</span> <span class="s1">&#39;true&#39;</span><span class="p">;</span> <span class="o">#</span> <span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="n">ERROR</span><span class="p">:</span>  <span class="k">column</span> <span class="s2">&#34;is_published&#34;</span> <span class="n">does</span> <span class="k">not</span> <span class="n">exist</span>
-<span class="k">SELECT</span> <span class="s2">&#34;id&#34;</span><span class="p">,</span> <span class="s2">&#34;data&#34;</span> <span class="k">FROM</span> <span class="s2">&#34;myapp_book&#34;</span> <span class="k">WHERE</span> <span class="s2">&#34;myapp_book&#34;</span><span class="p">.</span><span class="s2">&#34;data&#34;</span> <span class="o">-&gt;</span> <span class="s2">&#34;is_published&#34;</span> <span class="o">!=</span> <span class="s1">&#39;true&#39;</span><span class="p">;</span> <span class="o">#</span> <span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="n">ERROR</span><span class="p">:</span>  <span class="k">column</span> <span class="s2">&#34;is_published&#34;</span> <span class="n">does</span> <span class="k">not</span> <span class="n">exist</span>
-<span class="k">SELECT</span> <span class="s2">&#34;id&#34;</span><span class="p">,</span> <span class="s2">&#34;data&#34;</span> <span class="k">FROM</span> <span class="s2">&#34;myapp_book&#34;</span> <span class="k">WHERE</span> <span class="s2">&#34;myapp_book&#34;</span><span class="p">.</span><span class="s2">&#34;data&#34;</span> <span class="o">-&gt;</span> <span class="s1">&#39;is_published&#39;</span> <span class="o">!=</span> <span class="s1">&#39;true&#39;</span><span class="p">;</span> <span class="o">#</span> <span class="p">(</span><span class="n">O</span><span class="p">)</span> <span class="err">정상</span> <span class="err">동작</span>
 </code></pre></td></tr></table>
 </div>
 </div></div><div class="post-footer" id="post-footer">
