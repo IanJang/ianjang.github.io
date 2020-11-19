@@ -10,9 +10,8 @@
     <pubDate>Fri, 13 Nov 2020 01:16:00 &#43;0900</pubDate>
     <author>Author</author>
     <guid>https://ianjang.github.io/django-orm-postgresql-jsonfield%EC%97%90-%EB%8C%80%ED%95%B4-exclude-%EA%B5%AC%EB%AC%B8-%EC%82%AC%EC%9A%A9%EC%8B%9C-%EC%A3%BC%EC%9D%98%EC%82%AC%ED%95%AD/</guid>
-    <description><![CDATA[PostgreSQL JSON Field에 대하여 ORM 구문 작성 시 exclude를 사용한다면 주의하길 바랍니다. JSON Field에 대한 질의 결과가 일반적인(?) 예상과는 조금 다른 결과가 나옵니다. 그 때문에 이 같은 내용을 모르고 사용한다면 혼란에 빠질 수 있습니다. 실제로 본인 포함한 여러 개발자가 동일한 케이스로 혼란을 겪은 경험이 있습니다. 본 글의 내용을 접한 분들은 동일한 혼란을 겪지 않을 수 있길 바랍니다.
-(본 글은 Django 3.0.7, psycopg2-binary 2.8.5, PostgreSQL 12.4 기준으로 테스트 후 작성되었습니다.)
- JSON Field 필터링 테스트 아래 코드처럼 Book 모델이 구성되어 있고.]]></description>
+    <description><![CDATA[들어가며 PostgreSQL JSON Field에 대하여 ORM 구문 작성 시 exclude를 사용한다면 주의하길 바랍니다. JSON Field에 대한 질의 결과가 일반적인(?) 예상과는 조금 다른 결과가 나옵니다. 그 때문에 이 같은 내용을 모르고 사용한다면 혼란에 빠질 수 있습니다. 실제로 본인 포함한 여러 개발자가 동일한 케이스로 혼란을 겪은 경험이 있습니다. 본 글의 내용을 접한 분들은 동일한 혼란을 겪지 않을 수 있길 바랍니다.
+(본 글은 Django 3.0.7, psycopg2-binary 2.8.5, PostgreSQL 12.4 기준으로 테스트 후 작성되었습니다.)]]></description>
 </item><item>
     <title>EC2 디스크 공간, 메모리 사용량 CloudWatch 지표 쌓기</title>
     <link>https://ianjang.github.io/ec2-%EB%94%94%EC%8A%A4%ED%81%AC-%EA%B3%B5%EA%B0%84-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EC%82%AC%EC%9A%A9%EB%9F%89-cloudwatch-%EC%A7%80%ED%91%9C-%EC%8C%93%EA%B8%B0/</link>
@@ -37,9 +36,10 @@ EC2 Volume Size 수정 아래 순서대로 작업을 진행합시다.
     <pubDate>Fri, 05 Apr 2019 00:00:00 &#43;0900</pubDate>
     <author>Author</author>
     <guid>https://ianjang.github.io/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94/</guid>
-    <description><![CDATA[들어가며 이미지 리소스의 품질은 최대한 유지한 체로, 용량을 줄이기 위한 방법으로 ImageMagick을 사용하고 있었다. 그러던 중 AWS Lambda, s3를 이용하여 자동화 하면 좋겠다는 생각이 들었고, 실제로 이와같이 적용한 케이스가 많음을 확인하고 바로 작업을 진행해보았다. 아래는 작업을 진행하면서 ImageMagick 부터 Lambda 까지 필요한 내용들을 정리해 보았다.
- ImageMagick? 이미지 변환용으로 널리 쓰이는 라이브러리이다.
-ImageMagick Option 정말 다양한 옵션값이 있다. 간단하게는 Quality 옵션만으로 이미지 압축이 가능하지만, 압축이 어려운 이미지일 경우 원본보다 용량이 커지는 경우도 있더라.]]></description>
+    <description><![CDATA[들어가며 이미지 리소스를 S3에 업로드 하면 자동으로 압축이 되게 할 순 없을까? AWS Lambda를 이용하면 이 같은 자동화된 기능을 구현하여 사용할 수 있습니다. 여러 가지 사례를 참고하여 직접 자동화 작업을 진행하고, 그 내용을 정리해 보았습니다.
+ ImageMagick 먼저 이미지 압축을 위해 사용한 ImageMagick을 소개합니다. ImageMagick은 이미지 변환용으로 널리 쓰이는 오픈소스 라이브러리입니다.
+ 위키백과:이미지매직  ImageMagick 설치 저는 먼저 우분투환경에서 ImageMagick을 설치하여 사용해 보았습니다. 아래 순서로 진행하였습니다.
+1 2 3 4 5 6 7 8 9 10 11 12  # PNG library 설치 $ sudo apt-get install libpng-dev # ImageMagick 설치 $ git clone https://github.]]></description>
 </item><item>
     <title>Crontab 이용하여 주기적으로 오래된 파일 제거하기</title>
     <link>https://ianjang.github.io/crontab-%EC%9D%B4%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A3%BC%EA%B8%B0%EC%A0%81%EC%9C%BC%EB%A1%9C-%EC%98%A4%EB%9E%98%EB%90%9C-%ED%8C%8C%EC%9D%BC-%EC%A0%9C%EA%B1%B0%ED%95%98%EA%B8%B0/</link>

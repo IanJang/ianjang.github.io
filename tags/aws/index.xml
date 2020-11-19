@@ -19,9 +19,10 @@ EC2 Volume Size 수정 아래 순서대로 작업을 진행합시다.
     <pubDate>Fri, 05 Apr 2019 00:00:00 &#43;0900</pubDate>
     <author>Author</author>
     <guid>https://ianjang.github.io/aws-lambda-s3%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%B3%80%ED%99%98-%EC%9E%90%EB%8F%99%ED%99%94/</guid>
-    <description><![CDATA[들어가며 이미지 리소스의 품질은 최대한 유지한 체로, 용량을 줄이기 위한 방법으로 ImageMagick을 사용하고 있었다. 그러던 중 AWS Lambda, s3를 이용하여 자동화 하면 좋겠다는 생각이 들었고, 실제로 이와같이 적용한 케이스가 많음을 확인하고 바로 작업을 진행해보았다. 아래는 작업을 진행하면서 ImageMagick 부터 Lambda 까지 필요한 내용들을 정리해 보았다.
- ImageMagick? 이미지 변환용으로 널리 쓰이는 라이브러리이다.
-ImageMagick Option 정말 다양한 옵션값이 있다. 간단하게는 Quality 옵션만으로 이미지 압축이 가능하지만, 압축이 어려운 이미지일 경우 원본보다 용량이 커지는 경우도 있더라.]]></description>
+    <description><![CDATA[들어가며 이미지 리소스를 S3에 업로드 하면 자동으로 압축이 되게 할 순 없을까? AWS Lambda를 이용하면 이 같은 자동화된 기능을 구현하여 사용할 수 있습니다. 여러 가지 사례를 참고하여 직접 자동화 작업을 진행하고, 그 내용을 정리해 보았습니다.
+ ImageMagick 먼저 이미지 압축을 위해 사용한 ImageMagick을 소개합니다. ImageMagick은 이미지 변환용으로 널리 쓰이는 오픈소스 라이브러리입니다.
+ 위키백과:이미지매직  ImageMagick 설치 저는 먼저 우분투환경에서 ImageMagick을 설치하여 사용해 보았습니다. 아래 순서로 진행하였습니다.
+1 2 3 4 5 6 7 8 9 10 11 12  # PNG library 설치 $ sudo apt-get install libpng-dev # ImageMagick 설치 $ git clone https://github.]]></description>
 </item><item>
     <title>AWS Media Convert 내용 정리</title>
     <link>https://ianjang.github.io/aws-media-convert-%EB%82%B4%EC%9A%A9%EC%A0%95%EB%A6%AC/</link>

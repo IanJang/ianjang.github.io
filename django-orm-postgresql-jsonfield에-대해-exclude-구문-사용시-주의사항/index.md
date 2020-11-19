@@ -1,6 +1,8 @@
 # Django ORM PostgreSQL JSONField에 대해 exclude 구문 사용시 주의사항
 
 
+## 들어가며 
+
   PostgreSQL JSON Field에 대하여 ORM 구문 작성 시 exclude를 사용한다면 주의하길 바랍니다. JSON Field에 대한 질의 결과가 일반적인(?) 예상과는 조금 다른 결과가 나옵니다. 그 때문에 이 같은 내용을 모르고 사용한다면 혼란에 빠질 수 있습니다.  실제로 본인 포함한 여러 개발자가 동일한 케이스로 혼란을 겪은 경험이 있습니다. 본 글의 내용을 접한 분들은 동일한 혼란을 겪지 않을 수 있길 바랍니다.  
   
 (본 글은 Django 3.0.7, psycopg2-binary 2.8.5, PostgreSQL 12.4 기준으로 테스트 후 작성되었습니다.)  
